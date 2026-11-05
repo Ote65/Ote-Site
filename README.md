@@ -1,20 +1,26 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# 欧视界官网 · ote-site
 
-# Run and deploy your AI Studio app
+同一份构建同时发布两个域名：`ote.asia`（总站）与 `oltraflim.ote.asia`（欧胶片 OltraFlim）。
+前端按 hostname 在 `src/main.tsx` 里决定渲染 `App` 还是 `OltraFlimPage`。
 
-This contains everything you need to run your app locally.
+## 本地开发
 
-View your app in AI Studio: https://ai.studio/apps/3c7470de-1fd2-4d67-bdf7-cf08e6a74887
+```bash
+npm install
+npm run dev      # http://localhost:3000/oltraflim/ 看欧胶片页
+```
 
-## Run Locally
+## 发布
 
-**Prerequisites:**  Node.js
+```bash
+npm run deploy          # 构建 + 推到 Cloudflare
+npm run watch:deploy    # 常驻：保存文件后约 1 秒自动构建并发布
+```
 
+站点由 Cloudflare Workers Static Assets 托管，配置见 `wrangler.toml`。
+`worker.js` 只处理 `/dl/*`，把 GitHub Release 包从站内转发，并限制在白名单内的文件名。
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 下载清单
+
+版本号、体积、SHA-256、下载线路以及各平台的文案，全部集中在 `src/oltraflimRelease.ts`。
+换版本或加平台，只改这一个文件。
