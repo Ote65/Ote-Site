@@ -1,15 +1,54 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   FLIM_FAQS,
-  FLIM_FEATURES,
   FLIM_FLOW,
   OLTRAFLIM_RELEASE,
   type FlimDownloadFormat,
   type FlimPlatform,
 } from './oltraflimRelease';
+import DevelopChain from './DevelopChain';
 import './oltraflim.css';
 
 const R = OLTRAFLIM_RELEASE;
+
+/* 暗房叙事的四件事：文案按双平台能力如实撰写 */
+const DARKROOM_FEATURES = [
+  {
+    n: '01',
+    en: 'FILM LOOKS',
+    title: '胶片外观',
+    body: 'macOS 正式版内置 45 支胶片 stock、113 种外观，已预生成为 ACES 2.0 LUT，选中即出片；Windows 测试版先行 20 支胶片 × 8 种相纸，逐张真实光谱计算。',
+    foot: 'MAC 113 LOOKS · WIN 20×8',
+  },
+  {
+    n: '02',
+    en: 'LIGHT & COLOR',
+    title: '光线与色彩',
+    body: '曝光、对比、高光、阴影、黑白场；色温、色调、肤色/绿色/蓝色饱和度、分离色调。是完整的显影控制，不是一键滤镜。',
+    foot: 'LIGHT / COLOR / CURVES',
+  },
+  {
+    n: '03',
+    en: 'FILM TEXTURE',
+    title: '颗粒与光晕',
+    body: '颗粒尺寸、彩噪、阴影颗粒；光晕阈值、半径、暖度。再加暗角与褪色，把数码的干净变成胶片的呼吸。',
+    foot: 'GRAIN · HALATION · FADE',
+  },
+  {
+    n: '04',
+    en: 'LOCAL LIBRARY',
+    title: '像访达一样的照片库',
+    body: '导入照片或整个文件夹，网格/列表、按胶片分组、收藏与颜色标签、搜索。原文件留在原位置，编辑按路径记住。',
+    foot: 'FOLDERS · FAVORITES · TAGS',
+  },
+];
+
+const EXTRA_FAQS = [
+  {
+    q: 'macOS 正式版和 Windows 测试版有什么区别？',
+    a: 'macOS 正式版（1.3）功能完整：45 支胶片 stock、113 种外观，以预生成的 ACES 2.0 LUT 叠加，速度快。Windows 测试版（0.1.0）先行 20 支胶片 × 8 种相纸，走真实光谱逐张显影，更接近化学过程但更慢，安装包尚未签名、部分功能仍在补齐。',
+  },
+];
 
 function setMeta(attr: 'name' | 'property', key: string, content: string) {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
@@ -22,15 +61,15 @@ function setMeta(attr: 'name' | 'property', key: string, content: string) {
 }
 
 function applySeo() {
-  document.title = '欧胶片 OltraFlim — 原生 macOS 胶片模拟暗房';
+  document.title = '欧胶片 OltraFlim — 把 RAW 显影成胶片的数字暗房';
   const desc =
-    '欧胶片 OltraFlim 是欧视界旗下的原生 macOS 胶片模拟暗房：113 种 ACES 胶片外观、光线/色彩/曲线、颗粒与光晕，像访达一样的照片库，全本地离线运行。';
+    '欧胶片 OltraFlim 是一条从 RAW 到胶片的显影链路：密度曲线、光谱感光、成色剂、光晕与颗粒，八道工序全本地离线。macOS 正式版 113 种 ACES 胶片外观，Windows 测试版实时光谱显影。';
   setMeta('name', 'description', desc);
-  setMeta('property', 'og:title', '欧胶片 OltraFlim — 原生 macOS 胶片模拟暗房');
+  setMeta('property', 'og:title', '欧胶片 OltraFlim — 把 RAW 显影成胶片的数字暗房');
   setMeta('property', 'og:description', desc);
   setMeta('property', 'og:url', 'https://oltraflim.ote.asia/');
   setMeta('property', 'og:image', 'https://oltraflim.ote.asia/media/og-oltraflim.jpg');
-  setMeta('name', 'twitter:title', '欧胶片 OltraFlim — 原生 macOS 胶片模拟暗房');
+  setMeta('name', 'twitter:title', '欧胶片 OltraFlim — 把 RAW 显影成胶片的数字暗房');
   setMeta('name', 'twitter:description', desc);
   setMeta('name', 'twitter:image', 'https://oltraflim.ote.asia/media/og-oltraflim.jpg');
 
@@ -110,7 +149,7 @@ export default function OltraFlimPage() {
         operatingSystem: 'macOS 14.0+ / Windows 10 · 11',
         softwareVersion: R.version,
         description:
-          '原生 macOS 胶片模拟暗房：113 种 ACES 胶片外观、照片库与文件夹、光线/色彩/曲线、颗粒与光晕、全本地离线。',
+          '胶片模拟数字暗房：从 RAW 经密度曲线、光谱感光、成色剂、光晕与颗粒八道工序显影成胶片。macOS 正式版 113 种 ACES 外观，Windows 测试版实时光谱显影，全本地离线。',
         downloadUrl: current.github,
         url: 'https://oltraflim.ote.asia/',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'CNY' },
@@ -153,47 +192,50 @@ export default function OltraFlimPage() {
         </div>
       </nav>
 
+      {/* ===== HERO · 黑场 + 琥珀安全灯 ===== */}
       <section className="of-hero">
+        <div className="of-lamp" aria-hidden="true" />
+        <div className="of-filmstrip" aria-hidden="true" />
         <div className="wrap">
           <div className="of-hero-grid">
             <div className="of-hero-copy">
-              <div className="kicker reveal">OLTRAFLIM · 胶片模拟暗房</div>
+              <div className="kicker amber reveal">DIGITAL DARKROOM · 胶片显影</div>
               <h1 className="reveal">
-                让每一张照片，
+                把 RAW，
                 <br />
-                有自己的<em>胶片</em>。
+                显影成<em>胶片</em>。
               </h1>
               <p className="of-sub reveal">
-                113 种胶片外观，一整条从白平衡到光晕的显影链路。
-                在你自己的 Mac 上，安静地把数码照片洗成胶片。
+                欧胶片不是把一张滤镜贴上去，而是沿着胶片的密度曲线、光谱感光与成色剂，
+                一层一层把数码底片洗出来。八道工序，全本地离线，照片不出你的电脑。
               </p>
               <div className="btn-row reveal">
                 <a className="btn btn-primary lg" href="#download">
-                  下载 macOS 版
+                  下载 macOS 正式版
                 </a>
-                <a
-                  className="btn btn-ghost lg"
-                  href={R.repo}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a className="btn btn-ghost lg" href="#download">
+                  Windows 测试版
+                </a>
+                <a className="btn btn-ghost lg" href={R.repo} target="_blank" rel="noreferrer">
                   GitHub 仓库
                 </a>
               </div>
               <div className="of-hero-meta reveal">
                 <div>
-                  <span>VERSION</span>
+                  <span>MACOS</span>
                   <b>
-                    {R.version} / {R.build}
+                    v{R.version} 正式版 · 113 外观
+                  </b>
+                </div>
+                <div>
+                  <span>WINDOWS</span>
+                  <b>
+                    v{R.windows.version} 测试版 · 实时光谱
                   </b>
                 </div>
                 <div>
                   <span>SYSTEM</span>
-                  <b>macOS 14+</b>
-                </div>
-                <div>
-                  <span>CHIP</span>
-                  <b>Apple Silicon</b>
+                  <b>macOS 14+ · WIN 10/11</b>
                 </div>
                 <div>
                   <span>LICENSE</span>
@@ -210,8 +252,8 @@ export default function OltraFlimPage() {
                     <i className="amber" />
                     <i className="green" />
                   </div>
-                  <span className="of-win-title">OLTRAFLIM — 照片库</span>
-                  <span className="of-win-ver">1.3</span>
+                  <span className="of-win-title">OLTRAFLIM — 暗房</span>
+                  <span className="of-win-ver">{R.version}</span>
                 </div>
                 <div className="of-window-body">
                   <aside className="of-lib">
@@ -268,7 +310,7 @@ export default function OltraFlimPage() {
                   <aside className="of-inspector">
                     <div className="of-insp-head">
                       <span>显影</span>
-                      <em>7</em>
+                      <em>8</em>
                     </div>
                     <div className="of-look">
                       <b>Portra 400</b>
@@ -303,92 +345,50 @@ export default function OltraFlimPage() {
         </div>
       </section>
 
+      {/* ===== 事实条：双平台能力如实标注 ===== */}
       <section className="of-facts">
         <div className="wrap of-facts-grid">
           <div className="reveal">
             <b>113</b>
-            <span>FILM LOOKS</span>
-            <em>45 个胶片 stock</em>
+            <span>FILM LOOKS · MACOS</span>
+            <em>45 支胶片 stock · 预生成 ACES 2.0 LUT</em>
           </div>
           <div className="reveal d1">
-            <b>33³</b>
-            <span>ACES 2.0 LUT</span>
-            <em>Rec.709 显示变换</em>
+            <b>20 × 8</b>
+            <span>FILM × PAPER · WIN</span>
+            <em>测试版 · 逐张实时光谱显影</em>
           </div>
           <div className="reveal d2">
+            <b>8</b>
+            <span>DEVELOP STAGES</span>
+            <em>从 RAW 到屏幕的完整链路</em>
+          </div>
+          <div className="reveal d3">
             <b>100%</b>
             <span>LOCAL</span>
             <em>全本地离线运行</em>
           </div>
-          <div className="reveal d3">
-            <b>14+</b>
-            <span>macOS</span>
-            <em>Apple Silicon 原生</em>
-          </div>
         </div>
       </section>
 
+      {/* ===== 核心：显影链路动画 ===== */}
+      <DevelopChain />
+
+      {/* ===== 四件事 ===== */}
       <section className="of-section">
-        <div className="wrap of-two">
-          <div className="reveal">
-            <div className="kicker">NOT A FILTER</div>
-            <h2>
-              不是滤镜。
-              <br />
-              是一条完整的显影链路。
-            </h2>
-            <p className="of-lead">
-              先做白平衡、曝光、对数域明暗与局部对比，再叠加 ACES 2.0 / Rec.709
-              胶片 LUT，最后用曲线、色彩分级、通透、颗粒与光晕收尾。
-              高光和阴影都还在，层次不是压平的。
-            </p>
-            <ul className="of-list">
-              <li>
-                <b>光线</b>
-                <span>曝光、对比、高光、阴影、白点、黑点</span>
-              </li>
-              <li>
-                <b>色彩</b>
-                <span>色温、色调、自然饱和度、肤色/绿色/蓝色、分离色调</span>
-              </li>
-              <li>
-                <b>质感</b>
-                <span>颗粒尺寸、彩噪、阴影颗粒、光晕、暗角、褪色</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="of-sheet reveal d1">
-            <div className="of-sheet-bar">
-              <span>NEGATIVE → PRINT</span>
-              <em>ACES 2.0</em>
-            </div>
-            <div className="of-sheet-img">
-              <img src="/media/oltraflim-sample.jpg" alt="胶片显影样张" />
-              <span className="of-sheet-grain" />
-            </div>
-            <div className="of-sheet-foot">
-              <span>PORTRA 400 · ENDURA</span>
-              <b>显影 / DEVELOPED</b>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="of-section of-dark">
         <div className="wrap">
           <div className="of-section-head reveal">
             <div className="kicker">WHAT IT DOES</div>
             <h2>一间暗房，四件事。</h2>
             <p className="of-lead">
-              选胶片、调光色、做质感、整理照片库。没有节点图，没有光谱参数，
+              选胶片、调光色、做质感、整理照片库。没有节点图，没有光谱参数要填，
               每一步都看得见。
             </p>
           </div>
 
           <div className="of-features">
-            {FLIM_FEATURES.map((f, i) => (
-              <article key={f.id} className={`of-card reveal ${i > 0 ? `d${i}` : ''}`}>
+            {DARKROOM_FEATURES.map((f, i) => (
+              <article key={f.n} className={`of-card reveal ${i > 0 ? `d${i}` : ''}`}>
                 <div className="of-card-top">
                   <span>{f.n}</span>
                   <em>{f.en}</em>
@@ -402,12 +402,13 @@ export default function OltraFlimPage() {
         </div>
       </section>
 
-      <section className="of-section">
+      {/* ===== 工作流 ===== */}
+      <section className="of-section of-dark">
         <div className="wrap">
           <div className="of-section-head reveal">
             <div className="kicker">WORKFLOW</div>
             <h2>从一张原片，到一套胶片。</h2>
-            <p className="of-lead">四步，全部留在你自己的 Mac 上。</p>
+            <p className="of-lead">四步，全部留在你自己的电脑上。</p>
           </div>
           <div className="of-flow">
             {FLIM_FLOW.map((s, i) => (
@@ -422,7 +423,8 @@ export default function OltraFlimPage() {
         </div>
       </section>
 
-      <section className="of-section of-dark">
+      {/* ===== 照片库 ===== */}
+      <section className="of-section">
         <div className="wrap of-two of-library">
           <div className="reveal">
             <div className="kicker">LIBRARY LIKE FINDER</div>
@@ -489,16 +491,17 @@ export default function OltraFlimPage() {
         </div>
       </section>
 
+      {/* ===== 下载 ===== */}
       <section className="of-section of-download" id="download">
         <div className="wrap">
           <div className="of-download-grid">
             <div className="reveal">
-              <div className="kicker">DOWNLOAD · {active.version}</div>
-              <h2>{isWin ? 'Windows 版，先来试试。' : '把暗房，装进你的 Mac。'}</h2>
+              <div className="kicker amber">DOWNLOAD · {active.version}</div>
+              <h2>{isWin ? 'Windows 版，先来试试。' : '把暗房，装进你的电脑。'}</h2>
               <p className="of-lead">
                 {isWin
-                  ? 'Windows 测试版已经可以安装：界面是 Electron，显影走本地 Python 引擎，照片不出你的电脑。'
-                  : '下载即用。安装包里已经带好 113 种胶片外观，不需要再联网下载素材。'}
+                  ? 'Windows 测试版已经可以安装：界面是 Electron，显影走本地 Python 光谱引擎，照片不出你的电脑。'
+                  : '下载即用。macOS 正式版的安装包里已带好 113 种胶片外观，不需要再联网下载素材。'}
               </p>
               <ul className="of-req">
                 {active.requirements.map(([k, v]) => (
@@ -614,7 +617,8 @@ export default function OltraFlimPage() {
         </div>
       </section>
 
-      <section className="of-section">
+      {/* ===== 规格 ===== */}
+      <section className="of-section of-dark">
         <div className="wrap">
           <div className="of-section-head reveal">
             <div className="kicker">SPECIFICATION</div>
@@ -622,11 +626,11 @@ export default function OltraFlimPage() {
           </div>
           <div className="of-specs reveal">
             {[
-              ['VERSION', `v${R.version} / build ${R.build}（macOS）· v${R.windows.version}（Windows 测试版）`],
+              ['VERSION', `macOS v${R.version} / build ${R.build} · Windows v${R.windows.version}（测试版）`],
               ['SYSTEM', `${R.system} · ${R.windows.system}`],
               ['ARCH', `${R.arch} · ${R.windows.arch}`],
               ['PACKAGE', `DMG ${R.downloads.dmg.size} · ZIP ${R.downloads.zip.size} · EXE ${R.windows.downloads.exe.size}`],
-              ['FILM PACK', '113 个 LUT · 45 个胶片 stock · 33³ ACES 2.0'],
+              ['FILM PACK', 'macOS：113 LUT · 45 stock · 33³ ACES 2.0（预生成）｜Windows：20 支胶片 · 8 种相纸（实时光谱）'],
               ['EXPORT', 'JPEG · PNG · TIFF · HEIC · 全分辨率'],
               ['LIBRARY', '照片 / 文件夹 / 收藏 / 颜色标签 / 搜索'],
               ['LICENSE', '应用代码 PolyForm Noncommercial 1.0.0'],
@@ -649,14 +653,15 @@ export default function OltraFlimPage() {
         </div>
       </section>
 
-      <section className="of-section of-dark">
+      {/* ===== FAQ ===== */}
+      <section className="of-section">
         <div className="wrap">
           <div className="of-section-head reveal">
             <div className="kicker">FAQ</div>
             <h2>常见问题。</h2>
           </div>
           <div className="of-faq reveal">
-            {FLIM_FAQS.map((f) => (
+            {[...FLIM_FAQS, ...EXTRA_FAQS].map((f) => (
               <details key={f.q}>
                 <summary>
                   <span>{f.q}</span>
