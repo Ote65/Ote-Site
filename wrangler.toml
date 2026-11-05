@@ -1,0 +1,24 @@
+# ============================================================
+# OTE 总官网 · Cloudflare Workers Static Assets
+# 站点根域 ote.asia；构建产物在 ./dist（npm run build 生成）。
+# 下载/进入产品跳转各产品独立站；worker.js 只处理 /dl/* 的站内下载中转。
+# ============================================================
+
+name = "ote-site"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+workers_dev = true
+
+# 根域自定义域：ote.asia 已在本账号，自动管理 DNS 与证书
+# oltraflim.ote.asia：欧胶片独立产品站，同一 Worker 同一 dist，
+# 前端按 hostname 在 main.tsx 中渲染 OltraFlimPage
+routes = [
+  { pattern = "ote.asia", custom_domain = true },
+  { pattern = "oltraflim.ote.asia", custom_domain = true }
+]
+
+[assets]
+directory = "./dist"
+html_handling = "auto-trailing-slash"
+not_found_handling = "single-page-application"
+run_worker_first = ["/dl/*"]

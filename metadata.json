@@ -1,0 +1,6 @@
+{
+  "name": "欧特科技 OTE Studio — 新一代专业视觉与动态创作工具矩阵",
+  "description": "欧特科技旗下专业创作软件矩阵，涵盖视频创作 Agent 欧创 Oltra、3D 运镜动画系统 O4D，以及原生 macOS 胶片模拟暗房 欧胶片 OLTRAFILM。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
