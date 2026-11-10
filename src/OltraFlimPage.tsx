@@ -177,7 +177,7 @@ export default function OltraFlimPage() {
 
       <nav className="topbar of-topbar">
         <a className="brand" href="https://ote.asia/">
-          <img className="brand-logo" src="/media/ote-logo.png" alt="欧视界" />
+          <img className="brand-logo" src="/media/oltraflim-logo.png" alt="欧胶片 OLTRAFILM" />
           <span className="brand-text">
             <b>欧视界</b>
             <i> / 欧胶片</i>
