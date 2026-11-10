@@ -204,11 +204,20 @@ export default function OltraFlimPage() {
           <div className="of-hero-grid">
             <div className="of-hero-copy">
               <div className="kicker amber reveal">DIGITAL DARKROOM · 胶片显影</div>
-              <h1 className="reveal">
-                把 RAW，
-                <br />
-                显影成<em>胶片</em>。
-              </h1>
+              <div className="of-hero-headline reveal">
+                <img
+                  className="of-hero-appicon"
+                  src="/media/oltraflim-icon.png"
+                  alt="OltraFlim 应用图标"
+                  width={512}
+                  height={512}
+                />
+                <h1>
+                  把 RAW，
+                  <br />
+                  显影成<em>胶片</em>。
+                </h1>
+              </div>
               <p className="of-sub reveal">
                 欧胶片不是把一张滤镜贴上去，而是沿着胶片的密度曲线、光谱感光与成色剂，
                 一层一层把数码底片洗出来。八道工序，全本地离线，照片不出你的电脑。
