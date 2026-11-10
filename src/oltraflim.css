@@ -133,7 +133,7 @@
 
 .of-hero-meta {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0;
   margin-top: 38px;
   border-top: 1px solid var(--of-line);
@@ -164,10 +164,9 @@
   font-family: var(--mono);
   font-size: 9.5px;
   font-weight: 500;
+  line-height: 1.45;
   color: var(--of-t2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
 
 /* ===== window mockup ===== */
@@ -1257,10 +1256,10 @@
   padding: 4px 7px;
 }
 
-/* 平台切换：macOS 正式版 / Windows 测试版，并列入口 */
+/* 平台切换：macOS 正式版 / Windows 测试版 / iOS 内测版，并列入口 */
 .of-platform {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2px;
   padding: 2px;
   border: 1px solid var(--of-line);
@@ -1719,13 +1718,15 @@
   .of-hero-meta {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .of-hero-meta > div:nth-child(3) {
-    border-left: 0;
-    padding-left: 0;
+  .of-hero-meta > div:nth-child(n + 3) {
     border-top: 1px solid var(--of-line);
   }
-  .of-hero-meta > div:nth-child(4) {
-    border-top: 1px solid var(--of-line);
+  .of-hero-meta > div:nth-child(odd) {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .of-hero-meta > div:last-child {
+    grid-column: 1 / -1;
   }
   .of-window-body {
     grid-template-columns: 1fr;

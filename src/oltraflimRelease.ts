@@ -1,5 +1,5 @@
-export type FlimPlatform = 'mac' | 'win';
-export type FlimDownloadFormat = 'dmg' | 'zip' | 'exe';
+export type FlimPlatform = 'mac' | 'win' | 'ios';
+export type FlimDownloadFormat = 'dmg' | 'zip' | 'exe' | 'ipa';
 
 export type FlimDownload = {
   file: string;
@@ -21,6 +21,10 @@ const MIRROR = 'https://gh-proxy.com';
 const WIN_TAG = 'v0.1.0-win';
 const WIN_REPO = 'https://github.com/Ote65/spektraFilmOltra';
 const WIN_RELEASE = `${WIN_REPO}/releases/download/${WIN_TAG}`;
+
+/* iOS 内测版与 Windows 版共用发布仓库，tag 用 -ios 后缀区分 */
+const IOS_TAG = 'v0.4.0-ios';
+const IOS_RELEASE = `${WIN_REPO}/releases/download/${IOS_TAG}`;
 
 export const OLTRAFLIM_RELEASE = {
   name: '欧胶片 OltraFlim',
@@ -70,6 +74,43 @@ export const OLTRAFLIM_RELEASE = {
         github: `${WIN_RELEASE}/SpektraOltra-Setup-0.1.0.exe`,
         relay: `${RELAY}/SpektraOltra-Setup-0.1.0.exe`,
         mirror: `${MIRROR}/${WIN_RELEASE}/SpektraOltra-Setup-0.1.0.exe`,
+      } satisfies FlimDownload,
+    },
+  },
+  /* 并列的 iOS 内测入口（0.4.0，原生 SwiftUI 暗房 + 光谱显影引擎） */
+  ios: {
+    name: '欧胶片 OltraFlim（iOS 版）',
+    version: '0.4.0',
+    build: '2',
+    date: '2026-11-10',
+    channel: '内测版',
+    system: 'iOS 17.0 或更新',
+    arch: 'iPhone（arm64）',
+    repo: WIN_REPO,
+    releasePage: `${WIN_REPO}/releases/tag/${IOS_TAG}`,
+    requirements: [
+      ['SYSTEM', 'iOS 17.0 或更新'],
+      ['DEVICE', 'iPhone（arm64）'],
+      ['INPUT', 'JPEG · PNG · TIFF · HEIC · RAW · DNG'],
+      ['STATUS', '内测版 · 开发签名'],
+    ],
+    notices: [
+      '① 点上方按钮下载 IPA（14.1 MB），也可以在 iPhone 的「文件」App 里直接保存。',
+      '② 这个包是 Apple 开发签名：只有已登记在开发者设备列表里的 iPhone 能直接安装，其他手机需要用 Sideloadly / AltStore 等工具重签。',
+      '③ 重签：电脑装 Sideloadly，数据线连上 iPhone，把 IPA 拖进窗口，输入自己的 Apple ID 后开始安装。',
+      '④ 装完在手机「设置 → 通用 → VPN 与设备管理」里信任对应的开发者证书，才能打开 App。',
+      '⑤ 首次启动允许访问相册，就可以导入 RAW / JPEG，导出时照片直接写回相册。',
+      '⑥ 开发签名的描述文件有效期较短（本包到 2026-11-13），过期后用同样步骤重签即可，照片与编辑记录不会丢。',
+    ],
+    downloads: {
+      ipa: {
+        file: 'Spektrafilm-0.4.0-ios.ipa',
+        label: 'IPA 安装包',
+        size: '14.1 MB',
+        sha256: 'd1eb21ce2f90ea6328ef74be69f966cfe4d7b2ca6e1aff0c048938d55648d6a0',
+        github: `${IOS_RELEASE}/Spektrafilm-0.4.0-ios.ipa`,
+        relay: `${RELAY}/Spektrafilm-0.4.0-ios.ipa`,
+        mirror: `${MIRROR}/${IOS_RELEASE}/Spektrafilm-0.4.0-ios.ipa`,
       } satisfies FlimDownload,
     },
   },

@@ -122,9 +122,13 @@ export default function OltraFlimPage() {
   const [copied, setCopied] = useState(false);
 
   const isWin = platform === 'win';
-  const active = isWin ? R.windows : R;
-  const current =
-    platform === 'win' ? R.windows.downloads.exe : R.downloads[format === 'dmg' ? 'dmg' : 'zip'];
+  const isIOS = platform === 'ios';
+  const active = isIOS ? R.ios : isWin ? R.windows : R;
+  const current = isIOS
+    ? R.ios.downloads.ipa
+    : platform === 'win'
+      ? R.windows.downloads.exe
+      : R.downloads[format === 'dmg' ? 'dmg' : 'zip'];
 
   useReveal();
 
@@ -146,7 +150,7 @@ export default function OltraFlimPage() {
         name: '欧胶片 OltraFlim',
         alternateName: 'OltraFlim',
         applicationCategory: 'PhotographyApplication',
-        operatingSystem: 'macOS 14.0+ / Windows 10 · 11',
+        operatingSystem: 'macOS 14.0+ / Windows 10 · 11 / iOS 17.0+',
         softwareVersion: R.version,
         description:
           '胶片模拟数字暗房：从 RAW 经密度曲线、光谱感光、成色剂、光晕与颗粒八道工序显影成胶片。macOS 正式版 113 种 ACES 外观，Windows 测试版实时光谱显影，全本地离线。',
@@ -216,6 +220,9 @@ export default function OltraFlimPage() {
                 <a className="btn btn-ghost lg" href="#download">
                   Windows 测试版
                 </a>
+                <a className="btn btn-ghost lg" href="#download">
+                  iOS 内测版
+                </a>
                 <a className="btn btn-ghost lg" href={R.repo} target="_blank" rel="noreferrer">
                   GitHub 仓库
                 </a>
@@ -223,19 +230,19 @@ export default function OltraFlimPage() {
               <div className="of-hero-meta reveal">
                 <div>
                   <span>MACOS</span>
-                  <b>
-                    v{R.version} 正式版 · 113 外观
-                  </b>
+                  <b>v{R.version} 正式版</b>
                 </div>
                 <div>
                   <span>WINDOWS</span>
-                  <b>
-                    v{R.windows.version} 测试版 · 实时光谱
-                  </b>
+                  <b>v{R.windows.version} 测试版</b>
+                </div>
+                <div>
+                  <span>IOS</span>
+                  <b>v{R.ios.version} 内测版</b>
                 </div>
                 <div>
                   <span>SYSTEM</span>
-                  <b>macOS 14+ · WIN 10/11</b>
+                  <b>macOS 14+ · iOS 17+</b>
                 </div>
                 <div>
                   <span>LICENSE</span>
@@ -497,11 +504,13 @@ export default function OltraFlimPage() {
           <div className="of-download-grid">
             <div className="reveal">
               <div className="kicker amber">DOWNLOAD · {active.version}</div>
-              <h2>{isWin ? 'Windows 版，先来试试。' : '把暗房，装进你的电脑。'}</h2>
+              <h2>{isIOS ? '把暗房，装进口袋。' : isWin ? 'Windows 版，先来试试。' : '把暗房，装进你的电脑。'}</h2>
               <p className="of-lead">
-                {isWin
-                  ? 'Windows 测试版已经可以安装：界面是 Electron，显影走本地 Python 光谱引擎，照片不出你的电脑。'
-                  : '下载即用。macOS 正式版的安装包里已带好 113 种胶片外观，不需要再联网下载素材。'}
+                {isIOS
+                  ? 'iOS 内测版是原生 SwiftUI 暗房：同一套光谱显影引擎跑在手机上，导入、调色、导出全程不联网，照片不出手机。'
+                  : isWin
+                    ? 'Windows 测试版已经可以安装：界面是 Electron，显影走本地 Python 光谱引擎，照片不出你的电脑。'
+                    : '下载即用。macOS 正式版的安装包里已带好 113 种胶片外观，不需要再联网下载素材。'}
               </p>
               <ul className="of-req">
                 {active.requirements.map(([k, v]) => (
@@ -541,6 +550,19 @@ export default function OltraFlimPage() {
                   Windows
                   <em>测试版 {R.windows.version}</em>
                 </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={platform === 'ios'}
+                  className={platform === 'ios' ? 'on' : ''}
+                  onClick={() => {
+                    setPlatform('ios');
+                    setFormat('ipa');
+                  }}
+                >
+                  iOS
+                  <em>内测版 {R.ios.version}</em>
+                </button>
               </div>
 
               <div className="of-dl-head">
@@ -556,6 +578,13 @@ export default function OltraFlimPage() {
                   <button type="button" className="on">
                     EXE
                     <span>{R.windows.downloads.exe.size}</span>
+                  </button>
+                </div>
+              ) : isIOS ? (
+                <div className="of-format single">
+                  <button type="button" className="on">
+                    IPA
+                    <span>{R.ios.downloads.ipa.size}</span>
                   </button>
                 </div>
               ) : (
@@ -600,7 +629,13 @@ export default function OltraFlimPage() {
                 </button>
               </div>
 
-              {isWin ? (
+              {isIOS ? (
+                <ul className="of-dl-notices">
+                  {R.ios.notices.map((n) => (
+                    <li key={n}>{n}</li>
+                  ))}
+                </ul>
+              ) : isWin ? (
                 <ul className="of-dl-notices">
                   {R.windows.notices.map((n) => (
                     <li key={n}>{n}</li>
@@ -626,10 +661,10 @@ export default function OltraFlimPage() {
           </div>
           <div className="of-specs reveal">
             {[
-              ['VERSION', `macOS v${R.version} / build ${R.build} · Windows v${R.windows.version}（测试版）`],
-              ['SYSTEM', `${R.system} · ${R.windows.system}`],
-              ['ARCH', `${R.arch} · ${R.windows.arch}`],
-              ['PACKAGE', `DMG ${R.downloads.dmg.size} · ZIP ${R.downloads.zip.size} · EXE ${R.windows.downloads.exe.size}`],
+              ['VERSION', `macOS v${R.version} / build ${R.build} · Windows v${R.windows.version}（测试版）· iOS v${R.ios.version}（内测）`],
+              ['SYSTEM', `${R.system} · ${R.windows.system} · ${R.ios.system}`],
+              ['ARCH', `${R.arch} · ${R.windows.arch} · ${R.ios.arch}`],
+              ['PACKAGE', `DMG ${R.downloads.dmg.size} · ZIP ${R.downloads.zip.size} · EXE ${R.windows.downloads.exe.size} · IPA ${R.ios.downloads.ipa.size}`],
               ['FILM PACK', 'macOS：113 LUT · 45 stock · 33³ ACES 2.0（预生成）｜Windows：20 支胶片 · 8 种相纸（实时光谱）'],
               ['EXPORT', 'JPEG · PNG · TIFF · HEIC · 全分辨率'],
               ['LIBRARY', '照片 / 文件夹 / 收藏 / 颜色标签 / 搜索'],
@@ -701,6 +736,9 @@ export default function OltraFlimPage() {
               </a>
               <a href={R.windows.releasePage} target="_blank" rel="noreferrer">
                 Release 0.1.0 · Windows
+              </a>
+              <a href={R.ios.releasePage} target="_blank" rel="noreferrer">
+                Release 0.4.0 · iOS
               </a>
               <a href={`${R.repo}/blob/main/LICENSE`} target="_blank" rel="noreferrer">
                 License

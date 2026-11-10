@@ -8,6 +8,7 @@
    只放行白名单里的发布文件，避免成为开放代理：
      OltraFlim-<版本>.dmg / .zip（macOS 正式版）
      SpektraOltra-Setup-<版本>.exe（Windows 测试版）
+     Spektrafilm-<版本>-ios.ipa（iOS 内测版）
    ============================================================ */
 
 const DL_PREFIX = '/dl/';
@@ -16,6 +17,8 @@ const WIN_GITHUB_RELEASES = 'https://github.com/Ote65/spektraFilmOltra/releases/
 const FILE_RE = /^OltraFlim-(\d+(?:\.\d+){1,2})\.(dmg|zip)$/;
 /* Windows 测试版：SpektraOltra-Setup-0.1.0.exe → v0.1.0-win */
 const WIN_FILE_RE = /^SpektraOltra-Setup-(\d+(?:\.\d+){1,2})\.exe$/;
+/* iOS 内测版：Spektrafilm-0.4.0-ios.ipa → v0.4.0-ios */
+const IOS_FILE_RE = /^Spektrafilm-(\d+(?:\.\d+){1,2})-ios\.ipa$/;
 
 /** 只放行单层文件名，挡掉 ../ 之类的路径穿越 */
 function safeKey(pathname) {
@@ -31,6 +34,9 @@ function upstreamFor(key) {
 
   const win = WIN_FILE_RE.exec(key);
   if (win) return `${WIN_GITHUB_RELEASES}/v${win[1]}-win/${key}`;
+
+  const ios = IOS_FILE_RE.exec(key);
+  if (ios) return `${WIN_GITHUB_RELEASES}/v${ios[1]}-ios/${key}`;
 
   return null;
 }
