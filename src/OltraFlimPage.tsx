@@ -2,14 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   FLIM_FAQS,
   FLIM_FLOW,
-  OLTRAFLIM_RELEASE,
+  OLTRAFILM_RELEASE,
   type FlimDownloadFormat,
   type FlimPlatform,
 } from './oltraflimRelease';
 import DevelopChain from './DevelopChain';
 import './oltraflim.css';
 
-const R = OLTRAFLIM_RELEASE;
+const R = OLTRAFILM_RELEASE;
 
 /* 暗房叙事的四件事：文案按双平台能力如实撰写 */
 const DARKROOM_FEATURES = [
@@ -46,7 +46,7 @@ const DARKROOM_FEATURES = [
 const EXTRA_FAQS = [
   {
     q: 'macOS 正式版和 Windows 测试版有什么区别？',
-    a: 'macOS 正式版（1.3）功能完整：45 支胶片 stock、113 种外观，以预生成的 ACES 2.0 LUT 叠加，速度快。Windows 测试版（0.1.0）先行 20 支胶片 × 8 种相纸，走真实光谱逐张显影，更接近化学过程但更慢，安装包尚未签名、部分功能仍在补齐。',
+    a: 'macOS 正式版（1.4）功能完整：45 支胶片 stock、113 种外观，以预生成的 ACES 2.0 LUT 叠加，速度快。Windows 测试版（0.1.0）先行 20 支胶片 × 8 种相纸，走真实光谱逐张显影，更接近化学过程但更慢，安装包尚未签名、部分功能仍在补齐。',
   },
 ];
 
@@ -61,17 +61,17 @@ function setMeta(attr: 'name' | 'property', key: string, content: string) {
 }
 
 function applySeo() {
-  document.title = '欧胶片 OltraFlim — 把 RAW 显影成胶片的数字暗房';
+  document.title = '欧胶片 OltraFilm — 把 RAW 显影成胶片的数字暗房';
   const desc =
-    '欧胶片 OltraFlim 是一条从 RAW 到胶片的显影链路：密度曲线、光谱感光、成色剂、光晕与颗粒，八道工序全本地离线。macOS 正式版 113 种 ACES 胶片外观，Windows 测试版实时光谱显影。';
+    '欧胶片 OltraFilm 是一条从 RAW 到胶片的显影链路：密度曲线、光谱感光、成色剂、光晕与颗粒，八道工序全本地离线。macOS 正式版 113 种 ACES 胶片外观，Windows 测试版实时光谱显影。';
   setMeta('name', 'description', desc);
-  setMeta('property', 'og:title', '欧胶片 OltraFlim — 把 RAW 显影成胶片的数字暗房');
+  setMeta('property', 'og:title', '欧胶片 OltraFilm — 把 RAW 显影成胶片的数字暗房');
   setMeta('property', 'og:description', desc);
-  setMeta('property', 'og:url', 'https://oltraflim.ote.asia/');
-  setMeta('property', 'og:image', 'https://oltraflim.ote.asia/media/og-oltraflim.jpg');
-  setMeta('name', 'twitter:title', '欧胶片 OltraFlim — 把 RAW 显影成胶片的数字暗房');
+  setMeta('property', 'og:url', 'https://spektra.ote.asia/');
+  setMeta('property', 'og:image', 'https://spektra.ote.asia/media/og-oltraflim.jpg');
+  setMeta('name', 'twitter:title', '欧胶片 OltraFilm — 把 RAW 显影成胶片的数字暗房');
   setMeta('name', 'twitter:description', desc);
-  setMeta('name', 'twitter:image', 'https://oltraflim.ote.asia/media/og-oltraflim.jpg');
+  setMeta('name', 'twitter:image', 'https://spektra.ote.asia/media/og-oltraflim.jpg');
 
   let canonical = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
   if (!canonical) {
@@ -79,7 +79,7 @@ function applySeo() {
     canonical.rel = 'canonical';
     document.head.appendChild(canonical);
   }
-  canonical.href = 'https://oltraflim.ote.asia/';
+  canonical.href = 'https://spektra.ote.asia/';
 }
 
 function useReveal() {
@@ -147,15 +147,15 @@ export default function OltraFlimPage() {
       JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
-        name: '欧胶片 OltraFlim',
-        alternateName: 'OltraFlim',
+        name: '欧胶片 OltraFilm',
+        alternateName: 'OltraFilm',
         applicationCategory: 'PhotographyApplication',
         operatingSystem: 'macOS 14.0+ / Windows 10 · 11 / iOS 17.0+',
         softwareVersion: R.version,
         description:
           '胶片模拟数字暗房：从 RAW 经密度曲线、光谱感光、成色剂、光晕与颗粒八道工序显影成胶片。macOS 正式版 113 种 ACES 外观，Windows 测试版实时光谱显影，全本地离线。',
         downloadUrl: current.github,
-        url: 'https://oltraflim.ote.asia/',
+        url: 'https://spektra.ote.asia/',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'CNY' },
         license: `${R.repo}/blob/main/LICENSE`,
       }),
@@ -186,7 +186,7 @@ export default function OltraFlimPage() {
         <div className="nav">
           <a href="https://ote.asia/#products">产品</a>
           <a href="https://oltra.ote.asia">欧创 OLTRA</a>
-          <a href="https://oltraflim.ote.asia/" className="active">
+          <a href="https://spektra.ote.asia/" className="active">
             欧胶片
           </a>
           <a href="https://3d.ote.asia">O4D</a>
@@ -208,7 +208,7 @@ export default function OltraFlimPage() {
                 <img
                   className="of-hero-appicon"
                   src="/media/oltraflim-icon.png"
-                  alt="OltraFlim 应用图标"
+                  alt="OltraFilm 应用图标"
                   width={512}
                   height={512}
                 />
@@ -276,7 +276,7 @@ export default function OltraFlimPage() {
               <figure className="of-shot of-shot-mac">
                 <img
                   src="/media/oltraflim-mac.webp"
-                  alt="欧胶片 OltraFlim 在 macOS 上的显影工作台"
+                  alt="欧胶片 OltraFilm 在 macOS 上的显影工作台"
                   width={1600}
                   height={1030}
                 />
@@ -284,7 +284,7 @@ export default function OltraFlimPage() {
               <figure className="of-shot of-shot-ios">
                 <img
                   src="/media/oltraflim-ios.webp"
-                  alt="欧胶片 OltraFlim 在 iPhone 上的调色界面"
+                  alt="欧胶片 OltraFilm 在 iPhone 上的调色界面"
                   width={720}
                   height={1558}
                 />
@@ -665,7 +665,7 @@ export default function OltraFlimPage() {
             <div>
               <h5>产品</h5>
               <a href="https://oltra.ote.asia">欧创 OLTRA</a>
-              <a href="https://oltraflim.ote.asia/">欧胶片 OLTRAFLIM</a>
+              <a href="https://spektra.ote.asia/">欧胶片 OLTRAFILM</a>
               <a href="https://3d.ote.asia">O4D CineMover</a>
             </div>
             <div>
@@ -674,7 +674,7 @@ export default function OltraFlimPage() {
                 GitHub 仓库
               </a>
               <a href={R.releasePage} target="_blank" rel="noreferrer">
-                Release 1.3
+                Release 1.4
               </a>
               <a href={R.windows.releasePage} target="_blank" rel="noreferrer">
                 Release 0.1.0 · Windows
@@ -694,7 +694,7 @@ export default function OltraFlimPage() {
           </div>
           <div className="of-copy">
             <span>© 2026 Otegraph. All rights reserved.</span>
-            <span>欧胶片 OLTRAFLIM</span>
+            <span>欧胶片 OLTRAFILM</span>
           </div>
         </div>
       </footer>

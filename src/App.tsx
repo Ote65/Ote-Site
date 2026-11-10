@@ -255,12 +255,12 @@ export default function App() {
         </div>
       </section>
 
-      {/* OLTRAFLIM 产品块（第三件产品） */}
+      {/* OLTRAFILM 产品块（第三件产品） */}
       <section id="oltraflim">
         <div className="wrap">
           <div className="two-col">
             <div className="reveal">
-              <div className="kicker">欧胶片 OLTRAFLIM</div>
+              <div className="kicker">欧胶片 OLTRAFILM</div>
               <h2>
                 让数码照片，
                 <br />
@@ -276,7 +276,7 @@ export default function App() {
                 <li>照片库 / 文件夹 / 收藏 / 颜色标签，全本地离线</li>
               </ul>
               <div className="btn-row" style={{ marginTop: '26px' }}>
-                <a className="btn btn-primary" href="https://oltraflim.ote.asia">
+                <a className="btn btn-primary" href="https://spektra.ote.asia">
                   查看欧胶片
                 </a>
                 <a
@@ -295,7 +295,7 @@ export default function App() {
               <div className="media-frame">
                 <img
                   src="/media/oltraflim-sample.jpg"
-                  alt="OltraFlim 胶片显影样张"
+                  alt="OltraFilm 胶片显影样张"
                   loading="lazy"
                 />
               </div>
@@ -440,7 +440,7 @@ export default function App() {
           >
             进入 O4D
           </a>
-          <a className="btn btn-primary lg" href="https://oltraflim.ote.asia">
+          <a className="btn btn-primary lg" href="https://spektra.ote.asia">
             进入欧胶片
           </a>
         </div>
@@ -470,7 +470,7 @@ export default function App() {
                 </a>
               </li>
               <li>
-                <a href="https://oltraflim.ote.asia">欧胶片 OLTRAFLIM</a>
+                <a href="https://spektra.ote.asia">欧胶片 OLTRAFILM</a>
               </li>
             </ul>
           </div>

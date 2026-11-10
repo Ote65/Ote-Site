@@ -1,6 +1,6 @@
 # 欧视界官网 · ote-site
 
-同一份构建同时发布两个域名：`ote.asia`（总站）与 `oltraflim.ote.asia`（欧胶片 OltraFlim）。
+同一份构建同时发布两个域名：`ote.asia`（总站）与 `spektra.ote.asia`（欧胶片 OltraFilm）。
 前端按 hostname 在 `src/main.tsx` 里决定渲染 `App` 还是 `OltraFlimPage`。
 
 ## 本地开发

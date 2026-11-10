@@ -10,11 +10,11 @@ compatibility_date = "2026-01-01"
 workers_dev = true
 
 # 根域自定义域：ote.asia 已在本账号，自动管理 DNS 与证书
-# oltraflim.ote.asia：欧胶片独立产品站，同一 Worker 同一 dist，
+# spektra.ote.asia：欧胶片独立产品站，同一 Worker 同一 dist，
 # 前端按 hostname 在 main.tsx 中渲染 OltraFlimPage
 routes = [
   { pattern = "ote.asia", custom_domain = true },
-  { pattern = "oltraflim.ote.asia", custom_domain = true }
+  { pattern = "spektra.ote.asia", custom_domain = true },
 ]
 
 [assets]

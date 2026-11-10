@@ -2,11 +2,11 @@
    OTE 总官网 · Cloudflare Worker
    ------------------------------------------------------------
    静态页面由 Workers Static Assets 直接发（env.ASSETS）；
-   这个文件只负责 /dl/<文件名>：把 OltraFlim 的 GitHub Release 包
+   这个文件只负责 /dl/<文件名>：把 OltraFilm 的 GitHub Release 包
    从 ote.asia 同源流式转发，给国内网络兜底。
 
    只放行白名单里的发布文件，避免成为开放代理：
-     OltraFlim-<版本>.dmg / .zip（macOS 正式版）
+     OltraFlim-<版本>.dmg / .zip（macOS 正式版，产物名沿用旧拼写）
      SpektraOltra-Setup-<版本>.exe（Windows 测试版）
      Spektrafilm-<版本>-ios.ipa（iOS 内测版）
    ============================================================ */

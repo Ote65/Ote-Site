@@ -11,7 +11,7 @@ export type FlimDownload = {
   mirror: string;
 };
 
-const TAG = 'v1.3';
+const TAG = 'v1.4';
 const REPO = 'https://github.com/Ote65/OltraFlim';
 const RELEASE = `${REPO}/releases/download/${TAG}`;
 const RELAY = 'https://ote.asia/dl';
@@ -26,12 +26,12 @@ const WIN_RELEASE = `${WIN_REPO}/releases/download/${WIN_TAG}`;
 const IOS_TAG = 'v0.4.0-ios';
 const IOS_RELEASE = `${WIN_REPO}/releases/download/${IOS_TAG}`;
 
-export const OLTRAFLIM_RELEASE = {
-  name: '欧胶片 OltraFlim',
-  en: 'OLTRAFLIM',
-  version: '1.3',
-  build: '4',
-  date: '2026-10-30',
+export const OLTRAFILM_RELEASE = {
+  name: '欧胶片 OltraFilm',
+  en: 'OLTRAFILM',
+  version: '1.4',
+  build: '1',
+  date: '2026-11-10',
   channel: '正式版',
   system: 'macOS 14.0 或更新',
   arch: 'Apple Silicon（M1 / M2 / M3 / M4）',
@@ -45,7 +45,7 @@ export const OLTRAFLIM_RELEASE = {
   ],
   /* 并列的 Windows 测试版入口（0.1.0，Electron 界面 + 本地 Python 引擎） */
   windows: {
-    name: '欧胶片 OltraFlim（Windows 版）',
+    name: '欧胶片 OltraFilm（Windows 版）',
     version: '0.1.0',
     build: '1',
     date: '2026-11-05',
@@ -79,7 +79,7 @@ export const OLTRAFLIM_RELEASE = {
   },
   /* 并列的 iOS 内测入口（0.4.0，原生 SwiftUI 暗房 + 光谱显影引擎） */
   ios: {
-    name: '欧胶片 OltraFlim（iOS 版）',
+    name: '欧胶片 OltraFilm（iOS 版）',
     version: '0.4.0',
     build: '2',
     date: '2026-11-10',
@@ -116,22 +116,22 @@ export const OLTRAFLIM_RELEASE = {
   },
   downloads: {
     dmg: {
-      file: 'OltraFlim-1.3.dmg',
+      file: 'OltraFlim-1.4.dmg',
       label: 'DMG 安装包',
-      size: '13.7 MB',
-      sha256: 'aa14a23583cff1e48a7595f0fc33a2ada919b75b76c341f7d89fbac43d9bfb03',
-      github: `${RELEASE}/OltraFlim-1.3.dmg`,
-      relay: `${RELAY}/OltraFlim-1.3.dmg`,
-      mirror: `${MIRROR}/${RELEASE}/OltraFlim-1.3.dmg`,
+      size: '27.5 MB',
+      sha256: '216bdb32bc6377fd921d8fbdc215fb3e13c515163a043b9db4f531c54cf3ee5b',
+      github: `${RELEASE}/OltraFlim-1.4.dmg`,
+      relay: `${RELAY}/OltraFlim-1.4.dmg`,
+      mirror: `${MIRROR}/${RELEASE}/OltraFlim-1.4.dmg`,
     } satisfies FlimDownload,
     zip: {
-      file: 'OltraFlim-1.3.zip',
+      file: 'OltraFlim-1.4.zip',
       label: 'ZIP 免挂载',
-      size: '11.6 MB',
-      sha256: 'beb075ed779e06ec8ae14fee58473181f7f2dea265c439fac2c24ada0f142ff5',
-      github: `${RELEASE}/OltraFlim-1.3.zip`,
-      relay: `${RELAY}/OltraFlim-1.3.zip`,
-      mirror: `${MIRROR}/${RELEASE}/OltraFlim-1.3.zip`,
+      size: '12.6 MB',
+      sha256: 'f4baf4cf50f9130719fb00ea614382bb3ba591341f63e670ec1824da9d76c147',
+      github: `${RELEASE}/OltraFlim-1.4.zip`,
+      relay: `${RELAY}/OltraFlim-1.4.zip`,
+      mirror: `${MIRROR}/${RELEASE}/OltraFlim-1.4.zip`,
     } satisfies FlimDownload,
   } satisfies Record<'dmg' | 'zip', FlimDownload>,
 };
@@ -213,7 +213,7 @@ export const FLIM_FAQS = [
   },
   {
     q: '和普通滤镜有什么区别？',
-    a: '不是把一张 LUT 贴在照片上。OltraFlim 先做白平衡、曝光、对数域明暗和局部对比，再叠加 ACES 2.0 / Rec.709 显示 LUT，最后做曲线、色彩分级、通透、颗粒与光晕。每一步都可单独调。',
+    a: '不是把一张 LUT 贴在照片上。OltraFilm 先做白平衡、曝光、对数域明暗和局部对比，再叠加 ACES 2.0 / Rec.709 显示 LUT，最后做曲线、色彩分级、通透、颗粒与光晕。每一步都可单独调。',
   },
   {
     q: '可以商用吗？',
