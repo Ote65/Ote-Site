@@ -222,18 +222,30 @@ export default function OltraFlimPage() {
                 欧胶片不是把一张滤镜贴上去，而是沿着胶片的密度曲线、光谱感光与成色剂，
                 一层一层把数码底片洗出来。八道工序，全本地离线，照片不出你的电脑。
               </p>
-              <div className="btn-row reveal">
-                <a className="btn btn-primary lg" href="#download">
-                  下载 macOS 正式版
-                </a>
-                <a className="btn btn-ghost lg" href="#download">
-                  Windows 测试版
-                </a>
-                <a className="btn btn-ghost lg" href="#download">
-                  iOS 内测版
-                </a>
-                <a className="btn btn-ghost lg" href={R.repo} target="_blank" rel="noreferrer">
-                  GitHub 仓库
+              <div className="of-hero-cta reveal">
+                <div className="of-hero-cta-row">
+                  <a className="btn btn-primary lg" href="#download">
+                    下载 macOS 正式版
+                  </a>
+                  <a className="btn btn-ghost lg" href="#download">
+                    Windows 测试版
+                  </a>
+                  <a className="btn btn-ghost lg" href="#download">
+                    iOS 内测版
+                  </a>
+                </div>
+                <a
+                  className="of-repo-bar"
+                  href={R.repo}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="在 GitHub 打开仓库"
+                >
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M8 1.2a6.8 6.8 0 0 0-2.15 13.25c.34.06.46-.15.46-.33v-1.16c-1.9.41-2.3-.9-2.3-.9-.31-.79-.76-1-.76-1-.62-.42.05-.41.05-.41.69.05 1.05.7 1.05.7.61 1.05 1.6.75 1.99.57.06-.44.24-.75.43-.92-1.52-.17-3.12-.76-3.12-3.38 0-.75.27-1.36.7-1.84-.07-.17-.3-.87.07-1.81 0 0 .57-.18 1.87.7a6.5 6.5 0 0 1 3.4 0c1.3-.88 1.87-.7 1.87-.7.37.94.14 1.64.07 1.81.44.48.7 1.09.7 1.84 0 2.63-1.6 3.2-3.13 3.37.25.21.47.63.47 1.27v1.88c0 .18.12.4.47.33A6.8 6.8 0 0 0 8 1.2Z" />
+                  </svg>
+                  <code>{R.repo.replace(/^https?:\/\//, '')}</code>
+                  <span className="of-repo-go">打开 ↗</span>
                 </a>
               </div>
               <div className="of-hero-meta reveal">
@@ -260,102 +272,23 @@ export default function OltraFlimPage() {
               </div>
             </div>
 
-            <div className="of-window-wrap reveal">
-              <div className="of-window" aria-label="OltraFlim 界面预览">
-                <div className="of-windowbar">
-                  <div className="of-dots">
-                    <i className="red" />
-                    <i className="amber" />
-                    <i className="green" />
-                  </div>
-                  <span className="of-win-title">OLTRAFLIM — 暗房</span>
-                  <span className="of-win-ver">{R.version}</span>
-                </div>
-                <div className="of-window-body">
-                  <aside className="of-lib">
-                    <div className="of-lib-head">
-                      <span>照片库</span>
-                      <em>24</em>
-                    </div>
-                    <div className="of-lib-row active">
-                      <span className="of-folder" />
-                      <span>2026 秋</span>
-                      <em>12</em>
-                    </div>
-                    <div className="of-lib-row">
-                      <span className="of-folder" />
-                      <span>产品静物</span>
-                      <em>8</em>
-                    </div>
-                    <div className="of-lib-row">
-                      <span className="of-folder" />
-                      <span>人像</span>
-                      <em>4</em>
-                    </div>
-                    <div className="of-lib-line" />
-                    <div className="of-lib-thumb">
-                      <img src="/media/oltraflim-sample.jpg" alt="" />
-                      <span>Portra 400</span>
-                    </div>
-                    <div className="of-lib-thumb">
-                      <img src="/media/oltraflim-sample.jpg" alt="" className="alt" />
-                      <span>Gold 200</span>
-                    </div>
-                  </aside>
-
-                  <div className="of-stage">
-                    <div className="of-photo">
-                      <img src="/media/oltraflim-sample.jpg" alt="OltraFlim 显影预览" />
-                      <div className="of-photo-chip">
-                        <FilmMark />
-                        PORTRA 400 · ENDURA
-                      </div>
-                      <div className="of-compare">
-                        <span>原图</span>
-                        <span className="of-compare-line" />
-                        <b>显影</b>
-                      </div>
-                    </div>
-                    <div className="of-stagebar">
-                      <span>IMG_6459.DNG</span>
-                      <span>4032 × 3024</span>
-                      <span className="ok">本地离线</span>
-                    </div>
-                  </div>
-
-                  <aside className="of-inspector">
-                    <div className="of-insp-head">
-                      <span>显影</span>
-                      <em>8</em>
-                    </div>
-                    <div className="of-look">
-                      <b>Portra 400</b>
-                      <span>KODAK · 胶片强度 100%</span>
-                    </div>
-                    <div className="of-tabs">
-                      <b>光线</b>
-                      <span>色彩</span>
-                      <span>曲线</span>
-                    </div>
-                    {[
-                      ['曝光', 58, '+0.3'],
-                      ['对比', 50, '0'],
-                      ['高光', 36, '-42'],
-                      ['阴影', 68, '+31'],
-                      ['白色', 50, '0'],
-                    ].map(([name, pos, val]) => (
-                      <div className="of-slider" key={String(name)}>
-                        <span>{name}</span>
-                        <div className="of-track">
-                          <i style={{ left: `${pos}%` }} />
-                        </div>
-                        <em>{val}</em>
-                      </div>
-                    ))}
-                    <div className="of-insp-foot">ACES 2.0 · SPEKTRAFILM</div>
-                  </aside>
-                </div>
-              </div>
+            <div className="of-hero-shots reveal">
+              <figure className="of-shot of-shot-mac">
+                <img
+                  src="/media/oltraflim-mac.webp"
+                  alt="欧胶片 OltraFlim 在 macOS 上的显影工作台"
+                  width={1600}
+                  height={1030}
+                />
+              </figure>
+              <figure className="of-shot of-shot-ios">
+                <img
+                  src="/media/oltraflim-ios.webp"
+                  alt="欧胶片 OltraFlim 在 iPhone 上的调色界面"
+                  width={720}
+                  height={1558}
+                />
+              </figure>
             </div>
           </div>
         </div>
