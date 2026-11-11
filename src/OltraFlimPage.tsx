@@ -594,6 +594,29 @@ export default function OltraFlimPage() {
         </div>
       </section>
 
+      {/* ===== iOS 本次更新 ===== */}
+      <section className="of-section" id="update">
+        <div className="wrap">
+          <div className="of-section-head reveal">
+            <div className="kicker amber">WHAT'S NEW · iOS {R.ios.version}</div>
+            <h2>这次更新，把暗房做得更像暗房。</h2>
+          </div>
+          <div className="of-features">
+            {R.ios.whatsNew.map((f, i) => (
+              <article key={f.t} className={`of-card reveal ${i > 0 ? `d${i}` : ''}`}>
+                <div className="of-card-top">
+                  <span>{String(i + 1).padStart(2, '0')}</span>
+                  <em>{f.en}</em>
+                </div>
+                <h3>{f.t}</h3>
+                <p>{f.d}</p>
+                <div className="of-card-foot">{f.foot}</div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ===== 规格 ===== */}
       <section className="of-section of-dark">
         <div className="wrap">
