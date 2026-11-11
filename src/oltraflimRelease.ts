@@ -124,7 +124,7 @@ export const OLTRAFILM_RELEASE = {
       {
         en: 'SETTINGS',
         t: '全屏设置页',
-        d: '设置从弹层改为整页：默认导出类型 / 尺寸 / 品质、启动页面（访达 / 相机），以及 LUT 导入与删除。',
+        d: '设置从弹层改为整页：默认导出类型 / 尺寸 / 品质、启动页面（访达 / 相机），以及 LUT 导入、校验与删除。',
         foot: 'EXPORT · LAUNCH · LUT',
       },
       {
@@ -145,7 +145,7 @@ export const OLTRAFILM_RELEASE = {
         file: 'Spektrafilm-0.4.0-ios.ipa',
         label: 'IPA 安装包',
         size: '15.1 MB',
-        sha256: '7a590dca57207195fdf3b7388cfdfaaf0366487b7bec6b66028c050a6de4c48a',
+        sha256: '080bc3c1a0b45be5cd92b1e862fc97b62c2c7cfeab5a4db3cec5412f07781d02',
         github: `${IOS_RELEASE}/Spektrafilm-0.4.0-ios.ipa`,
         relay: `${RELAY}/Spektrafilm-0.4.0-ios.ipa`,
         mirror: `${MIRROR}/${IOS_RELEASE}/Spektrafilm-0.4.0-ios.ipa`,
