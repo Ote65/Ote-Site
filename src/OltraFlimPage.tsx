@@ -703,7 +703,7 @@ export default function OltraFlimPage() {
                 Release 0.1.0 · Windows
               </a>
               <a href={R.ios.releasePage} target="_blank" rel="noreferrer">
-                Release 0.4.0 · iOS
+                Release {R.ios.version} · iOS
               </a>
               <a href={`${R.repo}/blob/main/LICENSE`} target="_blank" rel="noreferrer">
                 License

@@ -23,7 +23,7 @@ const WIN_REPO = 'https://github.com/Ote65/spektraFilmOltra';
 const WIN_RELEASE = `${WIN_REPO}/releases/download/${WIN_TAG}`;
 
 /* iOS 内测版与 Windows 版共用发布仓库，tag 用 -ios 后缀区分 */
-const IOS_TAG = 'v0.4.0-ios';
+const IOS_TAG = 'v0.4.1-ios';
 const IOS_RELEASE = `${WIN_REPO}/releases/download/${IOS_TAG}`;
 
 export const OLTRAFILM_RELEASE = {
@@ -77,12 +77,12 @@ export const OLTRAFILM_RELEASE = {
       } satisfies FlimDownload,
     },
   },
-  /* 并列的 iOS 内测入口（0.4.0，原生 SwiftUI 暗房 + 光谱显影引擎） */
+  /* 并列的 iOS 内测入口（0.4.1，原生 SwiftUI 暗房 + 光谱显影引擎） */
   ios: {
     name: '欧胶片 OltraFilm（iOS 版）',
-    version: '0.4.0',
-    build: '3',
-    date: '2026-11-11',
+    version: '0.4.1',
+    build: '4',
+    date: '2026-11-12',
     channel: '内测版',
     system: 'iOS 17.0 或更新',
     arch: 'iPhone（arm64）',
@@ -91,64 +91,64 @@ export const OLTRAFILM_RELEASE = {
     requirements: [
       ['SYSTEM', 'iOS 17.0 或更新'],
       ['DEVICE', 'iPhone（arm64）'],
-      ['INPUT', 'RAW · DNG'],
+      ['INPUT', 'RAW · DNG · JPEG'],
       ['STATUS', '内测版 · 开发签名'],
     ],
     notices: [
-      '① 点上方按钮下载 IPA（15.1 MB），也可以在 iPhone 的「文件」App 里直接保存。',
+      '① 点上方按钮下载 IPA（16.2 MB），也可以在 iPhone 的「文件」App 里直接保存。',
       '② 这个包是 Apple 开发签名：只有已登记在开发者设备列表里的 iPhone 能直接安装，其他手机需要用 Sideloadly / AltStore 等工具重签。',
       '③ 重签：电脑装 Sideloadly，数据线连上 iPhone，把 IPA 拖进窗口，输入自己的 Apple ID 后开始安装。',
       '④ 装完在手机「设置 → 通用 → VPN 与设备管理」里信任对应的开发者证书，才能打开 App。',
-      '⑤ 首次启动允许访问相册，就可以导入 RAW / DNG；导出时成片直接写回相册。',
+      '⑤ 首次启动允许访问相册，就可以导入 RAW / DNG / JPEG；导出时成片直接写回相册。',
       '⑥ 开发签名的描述文件有效期较短（本包到 2026-11-13），过期后用同样步骤重签即可，照片与编辑记录不会丢。',
     ],
     whatsNew: [
       {
-        en: 'CURVE',
-        t: '调色曲线重做',
-        d: '默认没有控制点；点曲线加一个点，点选后旁边出现删除按钮。只有点本身接收拖动，框内其他位置照常上下滚动面板。',
-        foot: 'TAP · DRAG · DELETE',
+        en: 'CROP & LEVEL',
+        t: '裁切与校正',
+        d: '调色台加入裁切、水平、垂直 / 水平透视、镜像、旋转与比例裁切；取景框和滑杆拖到居中或默认位置时会自动吸附，并给一次轻触感。',
+        foot: 'CROP · LEVEL · PERSPECTIVE',
       },
       {
-        en: 'FILM BORDER',
-        t: '片边与日期戳',
-        d: '每个幅面的留边、片基、齿孔、角型和边字都拉开差异；新增胶片日期戳，可选四个角落与四种字体，预览与导出一致。',
-        foot: 'DATE STAMP · 4 CORNERS',
+        en: 'GPU CROP',
+        t: '裁切取景更跟手',
+        d: '取景预览改走 Core Image，拖动不再逐格重算；只有点「完成」才对原图执行一次几何变换，撤销与「重置全部调整」都覆盖裁切。',
+        foot: 'METAL · ONE PASS',
+      },
+      {
+        en: 'FREE CANVAS',
+        t: '自由画布',
+        d: '单指拖动、双指同时缩放 + 平移、双击放大 / 回默认；单击进入纯预览，照片移到屏幕中心，退出时恢复原来的缩放与位置。',
+        foot: 'PAN · PINCH · DOUBLE TAP',
+      },
+      {
+        en: 'IPAD SPLIT',
+        t: 'iPad 分栏',
+        d: '显影台与调色台在 iPad 横屏下改为三栏：素材 / 预设、画布、参数；台前调度小窗自动回到单列。',
+        foot: 'IPAD · 3 COLUMNS',
       },
       {
         en: 'LIBRARY',
-        t: '主页多选与重置',
-        d: '右上角进入多选，批量收藏或直接从系统相册删除；长按单张可重置全部调色，二次确认后回到导入状态。',
-        foot: 'MULTI-SELECT · RESET',
+        t: '主页相册映射',
+        d: '主页直接映射系统相册，新增「支持 JPEG」开关与相册拍摄图筛选，去掉旧的拍摄图扫描，打开更快。',
+        foot: 'ALBUM · JPEG',
       },
       {
-        en: 'SETTINGS',
-        t: '全屏设置页',
-        d: '设置从弹层改为整页：默认导出类型 / 尺寸 / 品质、启动页面（访达 / 相机），以及 LUT 导入、校验与删除。',
-        foot: 'EXPORT · LAUNCH · LUT',
-      },
-      {
-        en: 'WATERMARK',
-        t: '文本与 PNG 水印',
-        d: '支持文本和 PNG 两种水印，可调字体风格、对齐、旋转、投影、大小、透明度与双向偏移，最终导出时压进照片。',
-        foot: 'TEXT · PNG · EXPORT',
-      },
-      {
-        en: 'DEVELOP',
-        t: '显影预设与全黑修复',
-        d: '新增 8 个显影预设（含黑白与硬调黑白）和黑白模式；同时修复电影印片 2383 / 2393 光源别名缺失导致的整张全黑。',
-        foot: '8 PRESETS · K75P FIX',
+        en: 'HIGHLIGHT',
+        t: '高光柔和',
+        d: '快速模式新增高光柔和，压住数码高光边缘，亮部过渡更接近胶片。',
+        foot: 'SOFT HIGHLIGHT',
       },
     ],
     downloads: {
       ipa: {
-        file: 'Spektrafilm-0.4.0-ios.ipa',
+        file: 'Spektrafilm-0.4.1-ios.ipa',
         label: 'IPA 安装包',
-        size: '15.1 MB',
-        sha256: '080bc3c1a0b45be5cd92b1e862fc97b62c2c7cfeab5a4db3cec5412f07781d02',
-        github: `${IOS_RELEASE}/Spektrafilm-0.4.0-ios.ipa`,
-        relay: `${RELAY}/Spektrafilm-0.4.0-ios.ipa`,
-        mirror: `${MIRROR}/${IOS_RELEASE}/Spektrafilm-0.4.0-ios.ipa`,
+        size: '16.2 MB',
+        sha256: '1086b7bb20a11c569f27a28f764b51853bacf63c6919d76cbffd198b3f2c2d41',
+        github: `${IOS_RELEASE}/Spektrafilm-0.4.1-ios.ipa`,
+        relay: `${RELAY}/Spektrafilm-0.4.1-ios.ipa`,
+        mirror: `${MIRROR}/${IOS_RELEASE}/Spektrafilm-0.4.1-ios.ipa`,
       } satisfies FlimDownload,
     },
   },
