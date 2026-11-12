@@ -7,6 +7,7 @@ import {
   type FlimPlatform,
 } from './oltraflimRelease';
 import DevelopChain from './DevelopChain';
+import FlimGallery from './FlimGallery';
 import './oltraflim.css';
 
 const R = OLTRAFILM_RELEASE;
@@ -293,6 +294,9 @@ export default function OltraFlimPage() {
           </div>
         </div>
       </section>
+
+      {/* ===== 效果预览：显影样张 + 片边观看台 ===== */}
+      <FlimGallery />
 
       {/* ===== 事实条：双平台能力如实标注 ===== */}
       <section className="of-facts">
