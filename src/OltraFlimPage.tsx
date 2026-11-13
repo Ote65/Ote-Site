@@ -453,7 +453,7 @@ export default function OltraFlimPage() {
               <h2>{isIOS ? '把暗房，装进口袋。' : isWin ? 'Windows 版，先来试试。' : '把暗房，装进你的电脑。'}</h2>
               <p className="of-lead">
                 {isIOS
-                  ? 'iOS 内测版是原生 SwiftUI 暗房：同一套光谱显影引擎跑在手机上，导入、调色、导出全程不联网，照片不出手机。'
+                  ? 'iOS 内测版是一间原生 SwiftUI 暗房：同一套光谱显影引擎跑在手机上，RAW / DNG / JPEG / HEIC 导入后先显影、再调色，片边、日期戳与做旧都在同一张成片上完成，导出直接写回相册。全程不联网，照片不出手机。'
                   : isWin
                     ? 'Windows 测试版已经可以安装：界面是 Electron，显影走本地 Python 光谱引擎，照片不出你的电脑。'
                     : '下载即用。macOS 正式版的安装包里已带好 113 种胶片外观，不需要再联网下载素材。'}
