@@ -23,7 +23,7 @@ const WIN_REPO = 'https://github.com/Ote65/spektraFilmOltra';
 const WIN_RELEASE = `${WIN_REPO}/releases/download/${WIN_TAG}`;
 
 /* iOS 内测版与 Windows 版共用发布仓库，tag 用 -ios 后缀区分 */
-const IOS_TAG = 'v0.4.3-ios';
+const IOS_TAG = 'v0.4.4-ios';
 const IOS_RELEASE = `${WIN_REPO}/releases/download/${IOS_TAG}`;
 
 export const OLTRAFILM_RELEASE = {
@@ -77,11 +77,11 @@ export const OLTRAFILM_RELEASE = {
       } satisfies FlimDownload,
     },
   },
-  /* 并列的 iOS 内测入口（0.4.3，原生 SwiftUI 暗房 + 光谱显影引擎） */
+  /* 并列的 iOS 内测入口（0.4.4，原生 SwiftUI 暗房 + 光谱显影引擎） */
   ios: {
     name: '欧胶片 OltraFilm（iOS 版）',
-    version: '0.4.3',
-    build: '6',
+    version: '0.4.4',
+    build: '7',
     date: '2026-11-16',
     channel: '内测版',
     system: 'iOS 17.0 或更新',
@@ -95,7 +95,7 @@ export const OLTRAFILM_RELEASE = {
       ['STATUS', '内测版 · 开发签名'],
     ],
     notices: [
-      '① 点上方按钮下载 IPA（16.3 MB），也可以在 iPhone 的「文件」App 里直接保存。',
+      '① 点上方按钮下载 IPA（17.4 MB），也可以在 iPhone 的「文件」App 里直接保存。',
       '② 这个包是 Apple 开发签名：只有已登记在开发者设备列表里的 iPhone 能直接安装，其他手机需要用 Sideloadly / AltStore 等工具重签。',
       '③ 重签：电脑装 Sideloadly，数据线连上 iPhone，把 IPA 拖进窗口，输入自己的 Apple ID 后开始安装。',
       '④ 装完在手机「设置 → 通用 → VPN 与设备管理」里信任对应的开发者证书，才能打开 App。',
@@ -104,51 +104,51 @@ export const OLTRAFILM_RELEASE = {
     ],
     whatsNew: [
       {
-        en: 'TILED EXPORT',
-        t: '大图分带显影导出',
-        d: '导出前先按可用内存出计划：一次算得完就整张算，算不完就横向分带逐条显影，内存只跟条带高度有关。48MP 级原片的「原始」档不再被内存钳位降采样。',
-        foot: 'MEMORY · FULL RESOLUTION',
+        en: 'CAMERA UI',
+        t: '取景页与水平仪重做',
+        d: '水平仪改成三杠：中间横杠跟着机身倾斜转，左右两根参考杠固定跟设备方向，横屏时整组一起转；顶栏与取景图标重新排布，预设面板从按钮位置弹出。',
+        foot: 'LEVEL · CAMERA UI',
       },
       {
-        en: 'MEMORY DIET',
-        t: '显影内存全面瘦身',
-        d: '解码直写 RGB 浮点缓冲，跳过三段临时拷贝（34MP 少约 1.3GB）；光晕、偶联扩散、锐化逐通道计算，颗粒原地写回。12MP 全流程峰值 1.45→1.33GB，34MP 调色 2.56→1.76GB。',
-        foot: 'LESS RAM · SAME RESULT',
+        en: 'CAPTURE META',
+        t: '拍摄曝光与色温进入显影',
+        d: '按下快门时记下曝光补偿与锁定色温，入库直接写进显影参数。直出以拍摄曝光为基线再叠加预设，不再出现「相机里压了曝光、出片却没变化」。',
+        foot: 'SHUTTER · DEVELOP LINK',
       },
       {
-        en: 'PARITY GATE',
-        t: '分带与整张一致',
-        d: '分带导出与整张显影做逐像素对拍：五项门禁全过（最大偏差 6.84e-08），分带一致性偏差 ≤9.6e-07，肉眼不可分辨。',
-        foot: 'VERIFIED · 1e-5 GATE',
+        en: 'BORDER',
+        t: '直出成片可换片边',
+        d: '显影完成后仍可改片边：底部面板不压暗预览，预览自动上移完整露出；保存时按同一份参数把片边合进成片，预览与成品一致。',
+        foot: 'BORDER · NO RE-DEVELOP',
       },
       {
-        en: 'IPAD LAYOUT',
-        t: 'iPad 小窗回退单列',
-        d: '台前调度小窗、接近手机竖屏的比例自动回退 iPhone 单列布局，不再挤成一团；主页网格列数随窗口宽度渐进增减，卡片保持体量不被压扁，照片卡锁定比例。',
-        foot: 'STAGE MANAGER · PROGRESSIVE',
+        en: 'HANDOFF CACHE',
+        t: '调色台秒开',
+        d: '每张照片保留最近一次显影的 1600 长边交接图：参数没变直接复用，参数一变自动失效并覆盖，不累积。主页长按进调色台同样命中，不再重复显影。',
+        foot: 'CACHE · INSTANT GRADE',
       },
       {
-        en: 'LAUNCH FILTER',
-        t: '启动默认筛选',
-        d: '设置新增「默认筛选」：冷启动主页可直接落在拍摄、保存、收藏、RAW 或已调色；关闭「支持 JPEG」时相关选项自动回落全部。',
-        foot: 'SETTINGS · COLD START',
+        en: 'PRESETS',
+        t: '用户预设按组保存',
+        d: '显影与调色都能存自己的预设：调色可按光影 / 色调 / 质感 / 细节 / LUT 勾选保存，套用时只覆盖选中的组；支持左滑删除与撤销。',
+        foot: 'PRESET · BY GROUP',
       },
       {
-        en: 'RAW FIX',
-        t: 'RAW 首次解码不再卡住',
-        d: '修复 RAW 首次导入解码期间点击照片一直停在「读取中」的问题；支持 JPEG 引入后的输入格式与参数吸附也一并收紧。',
-        foot: 'FIX · IMPORT FLOW',
+        en: 'SETTINGS',
+        t: '相机设置与缓存清理',
+        d: '设置新增相机分区：水平仪、镜像前置、拍摄后进入显影台、音量键快门、直出保存原图；另加缓存统计与一键清理，清完不影响原片与编辑记录。',
+        foot: 'SETTINGS · CACHE',
       },
     ],
     downloads: {
       ipa: {
-        file: 'Spektrafilm-0.4.3-ios.ipa',
+        file: 'Spektrafilm-0.4.4-ios.ipa',
         label: 'IPA 安装包',
-        size: '16.3 MB',
-        sha256: '388333bdb5aab9df8fd9c8b99c44c7f5fb961ce390bb029525f78b93d12dd0e9',
-        github: `${IOS_RELEASE}/Spektrafilm-0.4.3-ios.ipa`,
-        relay: `${RELAY}/Spektrafilm-0.4.3-ios.ipa`,
-        mirror: `${MIRROR}/${IOS_RELEASE}/Spektrafilm-0.4.3-ios.ipa`,
+        size: '17.4 MB',
+        sha256: '119e6cdbded035d338941f118db54912ec6638a68aee6d0c7b55dbcbe930918b',
+        github: `${IOS_RELEASE}/Spektrafilm-0.4.4-ios.ipa`,
+        relay: `${RELAY}/Spektrafilm-0.4.4-ios.ipa`,
+        mirror: `${MIRROR}/${IOS_RELEASE}/Spektrafilm-0.4.4-ios.ipa`,
       } satisfies FlimDownload,
     },
   },
