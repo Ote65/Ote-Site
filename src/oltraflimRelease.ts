@@ -23,7 +23,7 @@ const WIN_REPO = 'https://github.com/Ote65/spektraFilmOltra';
 const WIN_RELEASE = `${WIN_REPO}/releases/download/${WIN_TAG}`;
 
 /* iOS 内测版与 Windows 版共用发布仓库，tag 用 -ios 后缀区分 */
-const IOS_TAG = 'v0.4.4-ios';
+const IOS_TAG = 'v0.4.5-ios';
 const IOS_RELEASE = `${WIN_REPO}/releases/download/${IOS_TAG}`;
 
 export const OLTRAFILM_RELEASE = {
@@ -77,12 +77,12 @@ export const OLTRAFILM_RELEASE = {
       } satisfies FlimDownload,
     },
   },
-  /* 并列的 iOS 内测入口（0.4.4，原生 SwiftUI 暗房 + 光谱显影引擎） */
+  /* 并列的 iOS 内测入口（0.4.5，原生 SwiftUI 暗房 + 光谱显影引擎） */
   ios: {
     name: '欧胶片 OltraFilm（iOS 版）',
-    version: '0.4.4',
-    build: '7',
-    date: '2026-11-16',
+    version: '0.4.5',
+    build: '8',
+    date: '2026-11-17',
     channel: '内测版',
     system: 'iOS 17.0 或更新',
     arch: 'iPhone（arm64）',
@@ -100,57 +100,75 @@ export const OLTRAFILM_RELEASE = {
       '③ 重签：电脑装 Sideloadly，数据线连上 iPhone，把 IPA 拖进窗口，输入自己的 Apple ID 后开始安装。',
       '④ 装完在手机「设置 → 通用 → VPN 与设备管理」里信任对应的开发者证书，才能打开 App。',
       '⑤ 首次启动允许访问相册，就可以导入 RAW / DNG / JPEG / HEIC；导出时成片直接写回相册。',
-      '⑥ 开发签名的描述文件有效期较短（本包到 2026-11-20），过期后用同样步骤重签即可，照片与编辑记录不会丢。',
+      '⑥ 开发签名的描述文件有效期较短（本包到 2026-11-24），过期后用同样步骤重签即可，照片与编辑记录不会丢。',
     ],
     whatsNew: [
       {
-        en: 'CAMERA UI',
-        t: '取景页与水平仪重做',
-        d: '水平仪改成三杠：中间横杠跟着机身倾斜转，左右两根参考杠固定跟设备方向，横屏时整组一起转；顶栏与取景图标重新排布，预设面板从按钮位置弹出。',
-        foot: 'LEVEL · CAMERA UI',
+        en: '48 MP PIPELINE',
+        t: '48 MP 分带渲染管线',
+        d: '超大图按行分带解码与调色：48 MP 直出不再被系统杀后台，峰值内存减半；中小图保持整幅解码，实测比盲目分带快 2.5 倍。',
+        foot: 'BANDED · MEMORY SAFE',
       },
       {
-        en: 'CAPTURE META',
-        t: '拍摄曝光与色温进入显影',
-        d: '按下快门时记下曝光补偿与锁定色温，入库直接写进显影参数。直出以拍摄曝光为基线再叠加预设，不再出现「相机里压了曝光、出片却没变化」。',
-        foot: 'SHUTTER · DEVELOP LINK',
+        en: 'PARALLEL GRADE',
+        t: '调色并行提速',
+        d: '调色渲染按带并行（3 带同算），与串行结果逐位一致；12 MP 直出与导出的调色段快约 1.2–1.8 倍，分辨率不动、画质不动，纯粹更快。',
+        foot: '3 BANDS · IDENTICAL',
       },
       {
-        en: 'BORDER',
-        t: '直出成片可换片边',
-        d: '显影完成后仍可改片边：底部面板不压暗预览，预览自动上移完整露出；保存时按同一份参数把片边合进成片，预览与成品一致。',
-        foot: 'BORDER · NO RE-DEVELOP',
+        en: 'PHYSICAL LENSES',
+        t: '取景器物理焦段切换',
+        d: '焦段按钮不再写死 26/35/50/77：直接枚举本机真实摄像头（超广 / 主摄 / 长焦），按视场角折算等效焦距；点击切换物理镜头，坏镜头自动移除并回退主摄。',
+        foot: 'ULTRAWIDE · TELEPHOTO',
       },
       {
-        en: 'HANDOFF CACHE',
-        t: '调色台秒开',
-        d: '每张照片保留最近一次显影的 1600 长边交接图：参数没变直接复用，参数一变自动失效并覆盖，不累积。主页长按进调色台同样命中，不再重复显影。',
-        foot: 'CACHE · INSTANT GRADE',
+        en: 'EXPORT PROGRESS',
+        t: '导出进度看得见',
+        d: '调色台导出的转圈换成滚动的 N%：按渲染带数反馈真实进度，数字上下滚动渐变；完成后百分比原地变成白色对勾，SF Symbols 原生弹跳入场。',
+        foot: 'N% · NATIVE CHECK',
       },
       {
-        en: 'PRESETS',
-        t: '用户预设按组保存',
-        d: '显影与调色都能存自己的预设：调色可按光影 / 色调 / 质感 / 细节 / LUT 勾选保存，套用时只覆盖选中的组；支持左滑删除与撤销。',
-        foot: 'PRESET · BY GROUP',
+        en: 'DIRECT OUTPUT',
+        t: '直出质量收口',
+        d: '直出跟随设置里的格式 / 尺寸 / 质量 / 水印；成片卡片最短展示 1.2 秒不闪卡；「进入显影台」跟随保存原图设置，不再擅自写相册；旧预设曝光不再变暗。',
+        foot: 'SPEC PARITY',
       },
       {
-        en: 'SETTINGS',
-        t: '相机设置与缓存清理',
-        d: '设置新增相机分区：水平仪、镜像前置、拍摄后进入显影台、音量键快门、直出保存原图；另加缓存统计与一键清理，清完不影响原片与编辑记录。',
-        foot: 'SETTINGS · CACHE',
+        en: 'SETTINGS HONESTY',
+        t: '尺寸档位不再迷惑',
+        d: '尺寸档位说明「只缩小不放大」：原图长边不足所选值时按原图输出；直出保存成功的提示带上实际输出长边，设置是否生效一眼可证。',
+        foot: 'VISIBLE RESULT',
       },
     ],
     downloads: {
       ipa: {
-        file: 'Spektrafilm-0.4.4-ios.ipa',
+        file: 'Spektrafilm-0.4.5-ios.ipa',
         label: 'IPA 安装包',
         size: '17.4 MB',
-        sha256: '119e6cdbded035d338941f118db54912ec6638a68aee6d0c7b55dbcbe930918b',
-        github: `${IOS_RELEASE}/Spektrafilm-0.4.4-ios.ipa`,
-        relay: `${RELAY}/Spektrafilm-0.4.4-ios.ipa`,
-        mirror: `${MIRROR}/${IOS_RELEASE}/Spektrafilm-0.4.4-ios.ipa`,
+        sha256: 'd94373d3c5bbb8177f6cc266fd2e31c4ef75733b6795dedf9a22dbcd266d8c3f',
+        github: `${IOS_RELEASE}/Spektrafilm-0.4.5-ios.ipa`,
+        relay: `${RELAY}/Spektrafilm-0.4.5-ios.ipa`,
+        mirror: `${MIRROR}/${IOS_RELEASE}/Spektrafilm-0.4.5-ios.ipa`,
       } satisfies FlimDownload,
     },
+    /* 复制给可执行命令的 AI Agent 的自动安装提示词：测速选线路、下载 IPA 与
+       签名工具、引导用户登录 Apple ID 完成签名安装。URL 与上方 downloads
+       同源，改版本时一起改。 */
+    agentPrompt: [
+      '帮我在当前电脑上下载并安装 OltraFilm iOS 内测版 v0.4.5。请真实执行每条命令，不要臆造结果；需要用户本人操作或输入的地方，停下来问用户。',
+      '',
+      '1. 探测线路：对下面三个地址各发一次 HTTP Range 请求（只取 1 字节，超时 5 秒），记录可用性与耗时，选最快的一条：',
+      '   A 直连 GitHub：https://github.com/Ote65/spektraFilmOltra/releases/download/v0.4.5-ios/Spektrafilm-0.4.5-ios.ipa',
+      '   B 站内中转：https://ote.asia/dl/Spektrafilm-0.4.5-ios.ipa',
+      '   C 加速镜像：https://gh-proxy.com/https://github.com/Ote65/spektraFilmOltra/releases/download/v0.4.5-ios/Spektrafilm-0.4.5-ios.ipa',
+      '2. 下载 IPA：用最快线路下载到本地，校验 SHA-256 必须等于 0.4.5 发布说明里登记的哈希；不一致就换线路重下，三次仍不一致向用户报告。',
+      '3. 选择安装方式：',
+      '   - 若本机是 macOS 且装有 Xcode、这台 iPhone 已登记在开发者设备列表：直接用 `xcrun devicectl device install app --device <UDID> <IPA路径>` 安装（手机需解锁并保持前台），跳过第 4 步。',
+      '   - 否则：打开 https://sideloadly.io 下载对应系统（macOS / Windows）的 Sideloadly 安装包并安装。',
+      '4. 用 Sideloadly 签名安装：启动 Sideloadly，把 IPA 拖进界面；请用户输入自己的 Apple ID 完成登录——密码与双重验证码必须由用户本人输入，你不要代填、不要记录；用数据线连接 iPhone 并保持解锁亮屏，点 Start，跟踪进度直到 100%。',
+      '5. 信任证书：指导用户在 iPhone「设置 → 通用 → VPN 与设备管理」里信任对应开发者证书，然后打开 App。',
+      '6. 汇报：输出所用线路、IPA 路径、SHA-256 校验结果、安装状态；失败时贴出 Sideloadly 日志关键行（macOS 在 ~/Library/Logs/sideloadly.log）。',
+    ].join('\n'),
   },
   downloads: {
     dmg: {

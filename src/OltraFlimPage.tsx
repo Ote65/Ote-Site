@@ -121,6 +121,7 @@ export default function OltraFlimPage() {
   const [platform, setPlatform] = useState<FlimPlatform>('mac');
   const [format, setFormat] = useState<FlimDownloadFormat>('dmg');
   const [copied, setCopied] = useState(false);
+  const [agentCopied, setAgentCopied] = useState(false);
 
   const isWin = platform === 'win';
   const isIOS = platform === 'ios';
@@ -142,6 +143,12 @@ export default function OltraFlimPage() {
     const timer = window.setTimeout(() => setCopied(false), 1600);
     return () => window.clearTimeout(timer);
   }, [copied]);
+
+  useEffect(() => {
+    if (!agentCopied) return;
+    const timer = window.setTimeout(() => setAgentCopied(false), 1600);
+    return () => window.clearTimeout(timer);
+  }, [agentCopied]);
 
   const jsonLd = useMemo(
     () =>
@@ -169,6 +176,15 @@ export default function OltraFlimPage() {
       setCopied(true);
     } catch {
       setCopied(false);
+    }
+  };
+
+  const copyAgentPrompt = async () => {
+    try {
+      await navigator.clipboard.writeText(R.ios.agentPrompt);
+      setAgentCopied(true);
+    } catch {
+      setAgentCopied(false);
     }
   };
 
@@ -592,6 +608,23 @@ export default function OltraFlimPage() {
                   主线路为 GitHub Releases；两条备用线路给国内网络兜底。
                   三条线路的文件完全一致，下载后请核对 SHA-256。
                 </p>
+              )}
+
+              {isIOS && (
+                <div className="of-agent">
+                  <div className="of-agent-head">
+                    <b>让 AI Agent 代劳</b>
+                    <span>
+                      复制下面这段提示词，粘贴给能执行命令的 AI 助手（TRAE · Claude ·
+                      Cursor 等）。它会自动测速选最快线路、下载 IPA 与签名工具
+                      Sideloadly，并引导你登录 Apple ID 完成签名与安装；需要本人输入密码或验证码的环节都会停下来交给你。
+                    </span>
+                  </div>
+                  <pre className="of-agent-body">{R.ios.agentPrompt}</pre>
+                  <button type="button" className="of-agent-copy" onClick={copyAgentPrompt}>
+                    {agentCopied ? '已复制，去粘贴给 Agent 即可' : '复制提示词'}
+                  </button>
+                </div>
               )}
             </div>
           </div>
