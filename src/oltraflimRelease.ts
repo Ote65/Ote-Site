@@ -76,6 +76,19 @@ export const OLTRAFILM_RELEASE = {
         mirror: `${MIRROR}/${WIN_RELEASE}/SpektraOltra-Setup-0.1.0.exe`,
       } satisfies FlimDownload,
     },
+    /* 复制给可执行命令的 AI Agent 的自动安装提示词（Windows 测试版） */
+    agentPrompt: [
+      '帮我在当前电脑上下载并安装 OltraFilm Windows 测试版 0.1.0（Windows 10 / 11 x64）。请真实执行每条命令，不要臆造结果；需要用户本人操作的地方，停下来交给用户。',
+      '',
+      '1. 探测线路：对下面三个地址各发一次 HTTP Range 请求（只取 1 字节，超时 5 秒），记录可用性与耗时，选最快的一条：',
+      '   A 直连 GitHub：https://github.com/Ote65/spektraFilmOltra/releases/download/v0.1.0-win/SpektraOltra-Setup-0.1.0.exe',
+      '   B 站内中转：https://ote.asia/dl/SpektraOltra-Setup-0.1.0.exe',
+      '   C 加速镜像：https://gh-proxy.com/https://github.com/Ote65/spektraFilmOltra/releases/download/v0.1.0-win/SpektraOltra-Setup-0.1.0.exe',
+      '2. 下载 EXE 安装包到本地，校验 SHA-256 必须等于 c8332f8f18f6789f4bb23bc8ee775bcbb0af4a763ca3c0adc197846e01b6ce51；不一致换线路重下，三次仍不一致向用户报告。',
+      '3. 安装：优先以静默参数运行安装程序（NSIS：`SpektraOltra-Setup-0.1.0.exe /S`）；静默失败时引导用户手动走完安装向导。安装包未做数字签名，遇到 Windows SmartScreen 蓝框时，指导用户点「更多信息」→「仍要运行」。',
+      '4. 启动验证：从开始菜单启动 SpektraOltra，确认窗口正常出现；首次启动会做一次 Python 引擎预热（约 20–40 秒），前几十秒渲染偏慢属正常。',
+      '5. 汇报：所用线路、文件路径、SHA-256 校验结果、安装与启动状态；失败时贴出安装器或引擎日志关键行。',
+    ].join('\n'),
   },
   /* 并列的 iOS 内测入口（0.4.5，原生 SwiftUI 暗房 + 光谱显影引擎） */
   ios: {
@@ -190,6 +203,19 @@ export const OLTRAFILM_RELEASE = {
       mirror: `${MIRROR}/${RELEASE}/OltraFlim-1.4.zip`,
     } satisfies FlimDownload,
   } satisfies Record<'dmg' | 'zip', FlimDownload>,
+  /* 复制给可执行命令的 AI Agent 的自动安装提示词（macOS 正式版） */
+  agentPrompt: [
+    '帮我在当前电脑上下载并安装 OltraFilm macOS 正式版 1.4（Apple Silicon，macOS 14+）。请真实执行每条命令，不要臆造结果；需要用户本人操作的地方，停下来交给用户。',
+    '',
+    '1. 探测线路：对下面三个地址各发一次 HTTP Range 请求（只取 1 字节，超时 5 秒），记录可用性与耗时，选最快的一条：',
+    '   A 直连 GitHub：https://github.com/Ote65/OltraFlim/releases/download/v1.4/OltraFlim-1.4.dmg',
+    '   B 站内中转：https://ote.asia/dl/OltraFlim-1.4.dmg',
+    '   C 加速镜像：https://gh-proxy.com/https://github.com/Ote65/OltraFlim/releases/download/v1.4/OltraFlim-1.4.dmg',
+    '2. 下载 DMG 到本地，校验 SHA-256 必须等于 216bdb32bc6377fd921d8fbdc215fb3e13c515163a043b9db4f531c54cf3ee5b；不一致换线路重下，三次仍不一致向用户报告。',
+    '3. 安装：`hdiutil attach` 挂载 DMG，把 OltraFilm.app 复制到 /Applications，再 `hdiutil detach` 卸载；如被 Gatekeeper 拦截，用 `xattr -dr com.apple.quarantine /Applications/OltraFilm.app` 清除隔离属性后重试。',
+    '4. 启动验证：`open -a OltraFilm` 确认窗口正常出现；首次启动会做一次引擎预热，前几十秒渲染偏慢属正常。',
+    '5. 汇报：所用线路、文件路径、SHA-256 校验结果、安装与启动状态；失败时贴出关键错误行。',
+  ].join('\n'),
 };
 
 export const FLIM_FEATURES = [

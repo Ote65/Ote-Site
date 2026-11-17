@@ -121,7 +121,7 @@ export default function OltraFlimPage() {
   const [platform, setPlatform] = useState<FlimPlatform>('mac');
   const [format, setFormat] = useState<FlimDownloadFormat>('dmg');
   const [copied, setCopied] = useState(false);
-  const [agentCopied, setAgentCopied] = useState(false);
+  const [agentCopied, setAgentCopied] = useState<string | null>(null);
 
   const isWin = platform === 'win';
   const isIOS = platform === 'ios';
@@ -146,7 +146,7 @@ export default function OltraFlimPage() {
 
   useEffect(() => {
     if (!agentCopied) return;
-    const timer = window.setTimeout(() => setAgentCopied(false), 1600);
+    const timer = window.setTimeout(() => setAgentCopied(null), 1600);
     return () => window.clearTimeout(timer);
   }, [agentCopied]);
 
@@ -179,14 +179,35 @@ export default function OltraFlimPage() {
     }
   };
 
-  const copyAgentPrompt = async () => {
+  const copyAgentPrompt = async (prompt: string, key: string) => {
     try {
-      await navigator.clipboard.writeText(R.ios.agentPrompt);
-      setAgentCopied(true);
+      await navigator.clipboard.writeText(prompt);
+      setAgentCopied(key);
     } catch {
-      setAgentCopied(false);
+      setAgentCopied(null);
     }
   };
+
+  const agentCards = [
+    {
+      key: 'mac',
+      title: `macOS · 正式版 ${R.version}`,
+      desc: '自动测速下载 DMG、校验哈希、挂载并安装到「应用程序」。',
+      prompt: R.agentPrompt,
+    },
+    {
+      key: 'win',
+      title: `Windows · 测试版 ${R.windows.version}`,
+      desc: '自动测速下载 EXE、校验哈希，引导绕过 SmartScreen 后安装。',
+      prompt: R.windows.agentPrompt,
+    },
+    {
+      key: 'ios',
+      title: `iOS · 内测版 ${R.ios.version}`,
+      desc: '自动测速下载 IPA、校验哈希，引导 Sideloadly 登录 Apple ID 签名安装。',
+      prompt: R.ios.agentPrompt,
+    },
+  ];
 
   return (
     <div className="of-page">
@@ -609,23 +630,36 @@ export default function OltraFlimPage() {
                   三条线路的文件完全一致，下载后请核对 SHA-256。
                 </p>
               )}
+            </div>
+          </div>
 
-              {isIOS && (
-                <div className="of-agent">
+          {/* AI Agent 安装提示词：整个下载板块底部通栏，三个平台各一份 */}
+          <div className="of-agent-grid">
+            <div className="of-agent-grid-head">
+              <b>让 AI Agent 代劳</b>
+              <span>
+                复制对应平台的提示词，粘贴给能执行命令的 AI 助手（TRAE · Claude ·
+                Cursor 等）。它会自动对三条线路测速选最快、下载并校验
+                SHA-256、完成安装；涉及登录 Apple ID、输入密码或验证码的环节都会停下来交给你本人操作。
+              </span>
+            </div>
+            <div className="of-agent-cols">
+              {agentCards.map((c) => (
+                <div className="of-agent" key={c.key}>
                   <div className="of-agent-head">
-                    <b>让 AI Agent 代劳</b>
-                    <span>
-                      复制下面这段提示词，粘贴给能执行命令的 AI 助手（TRAE · Claude ·
-                      Cursor 等）。它会自动测速选最快线路、下载 IPA 与签名工具
-                      Sideloadly，并引导你登录 Apple ID 完成签名与安装；需要本人输入密码或验证码的环节都会停下来交给你。
-                    </span>
+                    <b>{c.title}</b>
+                    <span>{c.desc}</span>
                   </div>
-                  <pre className="of-agent-body">{R.ios.agentPrompt}</pre>
-                  <button type="button" className="of-agent-copy" onClick={copyAgentPrompt}>
-                    {agentCopied ? '已复制，去粘贴给 Agent 即可' : '复制提示词'}
+                  <pre className="of-agent-body">{c.prompt}</pre>
+                  <button
+                    type="button"
+                    className="of-agent-copy"
+                    onClick={() => copyAgentPrompt(c.prompt, c.key)}
+                  >
+                    {agentCopied === c.key ? '已复制，去粘贴给 Agent 即可' : '复制提示词'}
                   </button>
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </div>

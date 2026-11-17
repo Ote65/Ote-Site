@@ -1253,9 +1253,42 @@
   border-color: var(--of-amber-line);
 }
 
-/* iOS 下载页：AI Agent 自动安装提示词卡片 */
+/* 下载板块底部通栏：AI Agent 自动安装提示词（三平台各一份） */
+.of-agent-grid {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--of-line);
+}
+
+.of-agent-grid-head {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.of-agent-grid-head b {
+  color: var(--of-amber);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.of-agent-grid-head span {
+  color: var(--of-t3);
+  font-size: 9.5px;
+  line-height: 1.65;
+  max-width: 760px;
+}
+
+.of-agent-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
 .of-agent {
-  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
   padding: 12px;
   border: 1px solid var(--of-line);
   border-radius: 8px;
@@ -1282,9 +1315,10 @@
 }
 
 .of-agent-body {
+  flex: 1;
   margin: 0;
   padding: 10px;
-  max-height: 168px;
+  max-height: 210px;
   overflow: auto;
   border: 1px solid var(--of-line);
   border-radius: 6px;
@@ -1312,6 +1346,12 @@
 
 .of-agent-copy:hover {
   background: rgba(255, 178, 84, 0.08);
+}
+
+@media (max-width: 860px) {
+  .of-agent-cols {
+    grid-template-columns: 1fr;
+  }
 }
 
 .of-dl-note {
