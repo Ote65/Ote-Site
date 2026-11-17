@@ -273,7 +273,7 @@ export const FLIM_FAQS = [
   },
   {
     q: '可以商用吗？',
-    a: '应用代码采用 PolyForm Noncommercial 1.0.0，个人与非商业用途免费；商业使用需要单独授权。内置胶片 LUT 数据来自 spektrafilm，按上游 CC BY-SA 4.0 授权，详见仓库 THIRD_PARTY_NOTICES.md。',
+    a: '不可以直接商用。项目采用分层许可：引擎是上游 spektrafilm 的移植衍生，沿用 GPLv3；自研前端（iOS / Windows / 桌面界面层）按 CC BY-NC-SA 4.0 授权——禁止商用，且任何使用或改动前端代码的分发都必须以同许可开源完整源代码并署名；胶片 LUT 与 profile 数据按上游 CC BY-SA 4.0。商业使用需与作者单独协商，详见各仓库 LICENSE 与 LICENSE.FRONTEND。',
   },
   {
     q: '为什么下载有多条线路？',
