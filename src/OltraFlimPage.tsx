@@ -188,26 +188,29 @@ export default function OltraFlimPage() {
     }
   };
 
-  const agentCards = [
-    {
-      key: 'mac',
-      title: `macOS · 正式版 ${R.version}`,
-      desc: '自动测速下载 DMG、校验哈希、挂载并安装到「应用程序」。',
-      prompt: R.agentPrompt,
-    },
-    {
-      key: 'win',
-      title: `Windows · 测试版 ${R.windows.version}`,
-      desc: '自动测速下载 EXE、校验哈希，引导绕过 SmartScreen 后安装。',
-      prompt: R.windows.agentPrompt,
-    },
-    {
-      key: 'ios',
-      title: `iOS · 内测版 ${R.ios.version}`,
-      desc: '自动测速下载 IPA、校验哈希，引导 Sideloadly 登录 Apple ID 签名安装。',
-      prompt: R.ios.agentPrompt,
-    },
-  ];
+  const switchPlatform = (p: FlimPlatform) => {
+    setPlatform(p);
+    setFormat(p === 'win' ? 'exe' : p === 'ios' ? 'ipa' : 'dmg');
+  };
+
+  const agentCard =
+    platform === 'ios'
+      ? {
+          title: `iOS · 内测版 ${R.ios.version}`,
+          desc: '自动测速下载 IPA、校验哈希，引导 Sideloadly 登录 Apple ID 签名安装。',
+          prompt: R.ios.agentPrompt,
+        }
+      : platform === 'win'
+        ? {
+            title: `Windows · 测试版 ${R.windows.version}`,
+            desc: '自动测速下载 EXE、校验哈希，引导绕过 SmartScreen 后安装。',
+            prompt: R.windows.agentPrompt,
+          }
+        : {
+            title: `macOS · 正式版 ${R.version}`,
+            desc: '自动测速下载 DMG、校验哈希、挂载并安装到「应用程序」。',
+            prompt: R.agentPrompt,
+          };
 
   return (
     <div className="of-page">
@@ -512,10 +515,7 @@ export default function OltraFlimPage() {
                   role="tab"
                   aria-selected={platform === 'mac'}
                   className={platform === 'mac' ? 'on' : ''}
-                  onClick={() => {
-                    setPlatform('mac');
-                    setFormat('dmg');
-                  }}
+                  onClick={() => switchPlatform('mac')}
                 >
                   macOS
                   <em>正式版 {R.version}</em>
@@ -525,10 +525,7 @@ export default function OltraFlimPage() {
                   role="tab"
                   aria-selected={platform === 'win'}
                   className={platform === 'win' ? 'on' : ''}
-                  onClick={() => {
-                    setPlatform('win');
-                    setFormat('exe');
-                  }}
+                  onClick={() => switchPlatform('win')}
                 >
                   Windows
                   <em>测试版 {R.windows.version}</em>
@@ -538,10 +535,7 @@ export default function OltraFlimPage() {
                   role="tab"
                   aria-selected={platform === 'ios'}
                   className={platform === 'ios' ? 'on' : ''}
-                  onClick={() => {
-                    setPlatform('ios');
-                    setFormat('ipa');
-                  }}
+                  onClick={() => switchPlatform('ios')}
                 >
                   iOS
                   <em>内测版 {R.ios.version}</em>
@@ -633,33 +627,45 @@ export default function OltraFlimPage() {
             </div>
           </div>
 
-          {/* AI Agent 安装提示词：整个下载板块底部通栏，三个平台各一份 */}
+          {/* AI Agent 安装提示词：单卡联动上方平台 tab，随 macOS / Windows / iOS 切换 */}
           <div className="of-agent-grid">
             <div className="of-agent-grid-head">
-              <b>让 AI Agent 代劳</b>
+              <div className="of-agent-headrow">
+                <b>让 AI AGENT 代劳</b>
+                <div className="of-agent-tabs" role="tablist" aria-label="提示词平台">
+                  {(['mac', 'win', 'ios'] as const).map((p) => (
+                    <button
+                      key={p}
+                      type="button"
+                      role="tab"
+                      aria-selected={platform === p}
+                      className={platform === p ? 'on' : ''}
+                      onClick={() => switchPlatform(p)}
+                    >
+                      {p === 'mac' ? 'macOS' : p === 'win' ? 'Windows' : 'iOS'}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <span>
-                复制对应平台的提示词，粘贴给能执行命令的 AI 助手（TRAE · Claude ·
-                Cursor 等）。它会自动对三条线路测速选最快、下载并校验
-                SHA-256、完成安装；涉及登录 Apple ID、输入密码或验证码的环节都会停下来交给你本人操作。
+                复制当前平台的提示词，粘贴给能执行命令的 AI 助手（TRAE · Claude ·
+                Cursor 等）。它会自动对三条线路测速选最快、下载并校验 SHA-256、完成安装；涉及登录
+                Apple ID、输入密码或验证码的环节都会停下来交给你本人操作。
               </span>
             </div>
-            <div className="of-agent-cols">
-              {agentCards.map((c) => (
-                <div className="of-agent" key={c.key}>
-                  <div className="of-agent-head">
-                    <b>{c.title}</b>
-                    <span>{c.desc}</span>
-                  </div>
-                  <pre className="of-agent-body">{c.prompt}</pre>
-                  <button
-                    type="button"
-                    className="of-agent-copy"
-                    onClick={() => copyAgentPrompt(c.prompt, c.key)}
-                  >
-                    {agentCopied === c.key ? '已复制，去粘贴给 Agent 即可' : '复制提示词'}
-                  </button>
-                </div>
-              ))}
+            <div className="of-agent" key={platform}>
+              <div className="of-agent-head">
+                <b>{agentCard.title}</b>
+                <span>{agentCard.desc}</span>
+              </div>
+              <pre className="of-agent-body">{agentCard.prompt}</pre>
+              <button
+                type="button"
+                className="of-agent-copy"
+                onClick={() => copyAgentPrompt(agentCard.prompt, platform)}
+              >
+                {agentCopied === platform ? '已复制，去粘贴给 Agent 即可' : '复制提示词'}
+              </button>
             </div>
           </div>
         </div>
