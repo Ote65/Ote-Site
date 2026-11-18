@@ -56,6 +56,10 @@ const EXTRA_FAQS = [
     q: 'macOS 正式版和 Windows 测试版有什么区别？',
     a: 'macOS 正式版（1.5）功能完整：45 支胶片 stock、113 种外观，以预生成的 ACES 2.0 LUT 叠加，速度快；1.5 起视频也能导进同一间暗房，暂停即显影当前帧。Windows 测试版（0.1.0）先行 20 支胶片 × 8 种相纸，走真实光谱逐张显影，更接近化学过程但更慢，安装包尚未签名、部分功能仍在补齐。',
   },
+  {
+    q: 'iOS 版怎么显影视频？',
+    a: '打开 App 后点顶部「照片库」切到视频库（会映射系统相册里的全部视频），点任意视频进入显影台：上方选胶片和相纸，下方是显影强度、画面对比度、色彩浓度、印相冷暖、颗粒等参数。播放时看原片，暂停或拖动进度条停下后只对当前帧显影；调好后点右上角「渲染视频」，选 HEVC 或 ProRes 母版，成片写回相册。全程在设备上完成，视频不上传。',
+  },
 ];
 
 function setMeta(attr: 'name' | 'property', key: string, content: string) {
@@ -71,7 +75,7 @@ function setMeta(attr: 'name' | 'property', key: string, content: string) {
 function applySeo() {
   document.title = '欧胶片 OltraFilm — 把 RAW 显影成胶片的数字暗房';
   const desc =
-    '欧胶片 OltraFilm 是一条从 RAW 到胶片的显影链路：密度曲线、光谱感光、成色剂、光晕与颗粒，八道工序全本地离线。macOS 正式版 113 种 ACES 胶片外观、照片与视频同库显影，Windows 测试版实时光谱显影。';
+    '欧胶片 OltraFilm 是一条从 RAW 到胶片的显影链路：密度曲线、光谱感光、成色剂、光晕与颗粒，八道工序全本地离线。macOS 正式版 113 种 ACES 胶片外观、照片与视频同库显影；iOS 内测版支持视频显影、暂停显影当前帧与全片渲染；Windows 测试版实时光谱显影。';
   setMeta('name', 'description', desc);
   setMeta('property', 'og:title', '欧胶片 OltraFilm — 把 RAW 显影成胶片的数字暗房');
   setMeta('property', 'og:description', desc);
@@ -500,7 +504,7 @@ export default function OltraFlimPage() {
               <h2>{isIOS ? '把暗房，装进口袋。' : isWin ? 'Windows 版，先来试试。' : '把暗房，装进你的电脑。'}</h2>
               <p className="of-lead">
                 {isIOS
-                  ? 'iOS 内测版是一间原生 SwiftUI 暗房：同一套光谱显影引擎跑在手机上，RAW / DNG / JPEG / HEIC 导入后先显影、再调色，片边、日期戳与做旧都在同一张成片上完成，导出直接写回相册。全程不联网，照片不出手机。'
+                  ? 'iOS 内测版是一间原生 SwiftUI 暗房：照片和视频都能显影。RAW / DNG / JPEG / HEIC 走完整显影与调色；点顶部「照片库」切到视频库，选中视频就能上胶片、调十余条显影参数，暂停显影当前帧、渲染全片写回相册。视频与照片共用同一条光谱显影管线，全程不联网，素材不出手机。'
                   : isWin
                     ? 'Windows 测试版已经可以安装：界面是 Electron，显影走本地 Python 光谱引擎，照片不出你的电脑。'
                     : '下载即用。macOS 1.5 的安装包里带好 113 种胶片外观；照片和视频待在同一间暗房，视频播放原片，暂停就显影当前这一帧。'}

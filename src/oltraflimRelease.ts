@@ -23,7 +23,7 @@ const WIN_REPO = 'https://github.com/Ote65/spektraFilmOltra';
 const WIN_RELEASE = `${WIN_REPO}/releases/download/${WIN_TAG}`;
 
 /* iOS 内测版与 Windows 版共用发布仓库，tag 用 -ios 后缀区分 */
-const IOS_TAG = 'v0.4.5-ios';
+const IOS_TAG = 'v0.7.0-ios';
 const IOS_RELEASE = `${WIN_REPO}/releases/download/${IOS_TAG}`;
 
 export const OLTRAFILM_RELEASE = {
@@ -90,12 +90,12 @@ export const OLTRAFILM_RELEASE = {
       '5. 汇报：所用线路、文件路径、SHA-256 校验结果、安装与启动状态；失败时贴出安装器或引擎日志关键行。',
     ].join('\n'),
   },
-  /* 并列的 iOS 内测入口（0.4.5，原生 SwiftUI 暗房 + 光谱显影引擎） */
+  /* 并列的 iOS 内测入口（0.7.0，原生 SwiftUI 暗房 + 视频显影 + 光谱显影引擎） */
   ios: {
     name: '欧胶片 OltraFilm（iOS 版）',
-    version: '0.4.5',
-    build: '8',
-    date: '2026-11-17',
+    version: '0.7.0',
+    build: '28',
+    date: '2026-11-18',
     channel: '内测版',
     system: 'iOS 17.0 或更新',
     arch: 'iPhone（arm64）',
@@ -104,77 +104,77 @@ export const OLTRAFILM_RELEASE = {
     requirements: [
       ['SYSTEM', 'iOS 17.0 或更新'],
       ['DEVICE', 'iPhone（arm64）'],
-      ['INPUT', 'RAW · DNG · JPEG · HEIC'],
+      ['INPUT', 'RAW · DNG · JPEG · HEIC · 视频 MOV / MP4'],
       ['STATUS', '内测版 · 开发签名'],
     ],
     notices: [
-      '① 点上方按钮下载 IPA（17.4 MB），也可以在 iPhone 的「文件」App 里直接保存。',
+      '① 点上方按钮下载 IPA（16.9 MB），也可以在 iPhone 的「文件」App 里直接保存。',
       '② 这个包是 Apple 开发签名：只有已登记在开发者设备列表里的 iPhone 能直接安装，其他手机需要用 Sideloadly / AltStore 等工具重签。',
       '③ 重签：电脑装 Sideloadly，数据线连上 iPhone，把 IPA 拖进窗口，输入自己的 Apple ID 后开始安装。',
       '④ 装完在手机「设置 → 通用 → VPN 与设备管理」里信任对应的开发者证书，才能打开 App。',
-      '⑤ 首次启动允许访问相册，就可以导入 RAW / DNG / JPEG / HEIC；导出时成片直接写回相册。',
+      '⑤ 首次启动允许访问相册，就可以导入照片与视频；首页点顶部「照片库」切到视频库，选中视频进入显影台，调完点「渲染视频」导出到相册。',
       '⑥ 开发签名的描述文件有效期较短（本包到 2026-11-24），过期后用同样步骤重签即可，照片与编辑记录不会丢。',
     ],
     whatsNew: [
       {
-        en: '48 MP PIPELINE',
-        t: '48 MP 分带渲染管线',
-        d: '超大图按行分带解码与调色：48 MP 直出不再被系统杀后台，峰值内存减半；中小图保持整幅解码，实测比盲目分带快 2.5 倍。',
-        foot: 'BANDED · MEMORY SAFE',
+        en: 'VIDEO DEVELOP',
+        t: '视频显影上台',
+        d: '首页点顶部「照片库」即可切到视频库，映射系统相册里的全部视频。点视频进入显影台：上方胶片与相纸轨道，下方显影强度、对比度、色彩浓度、印相冷暖、颗粒等十余条参数。',
+        foot: 'PHOTO LIBRARY · FILM STOCK',
       },
       {
-        en: 'PARALLEL GRADE',
-        t: '调色并行提速',
-        d: '调色渲染按带并行（3 带同算），与串行结果逐位一致；12 MP 直出与导出的调色段快约 1.2–1.8 倍，分辨率不动、画质不动，纯粹更快。',
-        foot: '3 BANDS · IDENTICAL',
+        en: 'STILL PREVIEW',
+        t: '暂停即显影当前帧',
+        d: '播放时看原片，暂停或拖动进度条停下后，只对当前这一帧做单帧显影并叠上去；参数改动只重显影这一帧，不碰全片。播放胶囊左侧播放/暂停、中间进度可拖动。',
+        foot: 'FRAME ACCURATE',
       },
       {
-        en: 'PHYSICAL LENSES',
-        t: '取景器物理焦段切换',
-        d: '焦段按钮不再写死 26/35/50/77：直接枚举本机真实摄像头（超广 / 主摄 / 长焦），按视场角折算等效焦距；点击切换物理镜头，坏镜头自动移除并回退主摄。',
-        foot: 'ULTRAWIDE · TELEPHOTO',
+        en: 'FULL RENDER',
+        t: '全片逐帧渲染',
+        d: '点「渲染视频」选编码档位：HEVC 标准/高码率，或 ProRes 422 LT 母版。逐帧过同一条 Metal 管线，带手感反馈的跳动百分比，完成后成片直接写回相册。',
+        foot: 'HEVC · PRORES LT',
       },
       {
-        en: 'EXPORT PROGRESS',
-        t: '导出进度看得见',
-        d: '调色台导出的转圈换成滚动的 N%：按渲染带数反馈真实进度，数字上下滚动渐变；完成后百分比原地变成白色对勾，SF Symbols 原生弹跳入场。',
-        foot: 'N% · NATIVE CHECK',
+        en: 'FILM PIPELINE',
+        t: '照片显影同源',
+        d: '视频与照片共用四段 65³ LUT 与密度域颗粒模型：显影强度、动态范围走实时参数，色彩浓度/画面对比度/印相冷暖映射到显示域，颗粒逐帧独立重随机。',
+        foot: '65³ LUT · DENSITY GRAIN',
       },
       {
-        en: 'DIRECT OUTPUT',
-        t: '直出质量收口',
-        d: '直出跟随设置里的格式 / 尺寸 / 质量 / 水印；成片卡片最短展示 1.2 秒不闪卡；「进入显影台」跟随保存原图设置，不再擅自写相册；旧预设曝光不再变暗。',
-        foot: 'SPEC PARITY',
+        en: 'STABLE EXPORT',
+        t: '竖拍与母版不再黑屏',
+        d: '竖拍改用传感器方向解码 + 输出轨道 transform，绕开 CPU 合成器对 10-bit HEVC 产出黑帧；导出统一声明 Rec.709 色彩属性，ProRes 母版在相册里也有画面。',
+        foot: 'NO BLACK FRAMES',
       },
       {
-        en: 'SETTINGS HONESTY',
-        t: '尺寸档位不再迷惑',
-        d: '尺寸档位说明「只缩小不放大」：原图长边不足所选值时按原图输出；直出保存成功的提示带上实际输出长边，设置是否生效一眼可证。',
-        foot: 'VISIBLE RESULT',
+        en: 'CRASH FREE',
+        t: '高分辨率不再闪退',
+        d: '显影纹理复用、物理颗粒精度降到 16F，峰值显存显著下降：高分辨率照片与视频显影不再被系统杀后台。',
+        foot: '16F · TEXTURE REUSE',
       },
     ],
     downloads: {
       ipa: {
-        file: 'Spektrafilm-0.4.5-ios.ipa',
+        file: 'Spektrafilm-0.7.0-ios.ipa',
         label: 'IPA 安装包',
-        size: '17.4 MB',
-        sha256: 'd94373d3c5bbb8177f6cc266fd2e31c4ef75733b6795dedf9a22dbcd266d8c3f',
-        github: `${IOS_RELEASE}/Spektrafilm-0.4.5-ios.ipa`,
-        relay: `${RELAY}/Spektrafilm-0.4.5-ios.ipa`,
-        mirror: `${MIRROR}/${IOS_RELEASE}/Spektrafilm-0.4.5-ios.ipa`,
+        size: '16.9 MB',
+        sha256: '0d97a5d7ae0a194cdceef5d5f14b78956e0c6dd67701564b7a0e2d1bbaa9486e',
+        github: `${IOS_RELEASE}/Spektrafilm-0.7.0-ios.ipa`,
+        relay: `${RELAY}/Spektrafilm-0.7.0-ios.ipa`,
+        mirror: `${MIRROR}/${IOS_RELEASE}/Spektrafilm-0.7.0-ios.ipa`,
       } satisfies FlimDownload,
     },
     /* 复制给可执行命令的 AI Agent 的自动安装提示词：测速选线路、下载 IPA 与
        签名工具、引导用户登录 Apple ID 完成签名安装。URL 与上方 downloads
        同源，改版本时一起改。 */
     agentPrompt: [
-      '帮我在当前电脑上下载并安装 OltraFilm iOS 内测版 v0.4.5。请真实执行每条命令，不要臆造结果；需要用户本人操作或输入的地方，停下来问用户。',
+      '帮我在当前电脑上下载并安装 OltraFilm iOS 内测版 v0.7.0。请真实执行每条命令，不要臆造结果；需要用户本人操作或输入的地方，停下来问用户。',
       '',
       '1. 探测线路：对下面三个地址各发一次 HTTP Range 请求（只取 1 字节，超时 5 秒），记录可用性与耗时，选最快的一条：',
-      '   A 直连 GitHub：https://github.com/Ote65/spektraFilmOltra/releases/download/v0.4.5-ios/Spektrafilm-0.4.5-ios.ipa',
-      '   B 站内中转：https://ote.asia/dl/Spektrafilm-0.4.5-ios.ipa',
-      '   C 加速镜像：https://gh-proxy.com/https://github.com/Ote65/spektraFilmOltra/releases/download/v0.4.5-ios/Spektrafilm-0.4.5-ios.ipa',
-      '2. 下载 IPA：用最快线路下载到本地，校验 SHA-256 必须等于 0.4.5 发布说明里登记的哈希；不一致就换线路重下，三次仍不一致向用户报告。',
+      '   A 直连 GitHub：https://github.com/Ote65/spektraFilmOltra/releases/download/v0.7.0-ios/Spektrafilm-0.7.0-ios.ipa',
+      '   B 站内中转：https://ote.asia/dl/Spektrafilm-0.7.0-ios.ipa',
+      '   C 加速镜像：https://gh-proxy.com/https://github.com/Ote65/spektraFilmOltra/releases/download/v0.7.0-ios/Spektrafilm-0.7.0-ios.ipa',
+      '2. 下载 IPA：用最快线路下载到本地，校验 SHA-256 必须等于 0d97a5d7ae0a194cdceef5d5f14b78956e0c6dd67701564b7a0e2d1bbaa9486e；不一致就换线路重下，三次仍不一致向用户报告。',
       '3. 选择安装方式：',
       '   - 若本机是 macOS 且装有 Xcode、这台 iPhone 已登记在开发者设备列表：直接用 `xcrun devicectl device install app --device <UDID> <IPA路径>` 安装（手机需解锁并保持前台），跳过第 4 步。',
       '   - 否则：打开 https://sideloadly.io 下载对应系统（macOS / Windows）的 Sideloadly 安装包并安装。',
