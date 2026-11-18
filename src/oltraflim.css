@@ -717,6 +717,10 @@
   gap: 14px;
 }
 
+.of-card:last-child:nth-child(odd) {
+  grid-column: span 2;
+}
+
 .of-card {
   background: var(--of-panel);
   border: 1px solid var(--of-line);

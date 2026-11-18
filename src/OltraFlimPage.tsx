@@ -39,15 +39,22 @@ const DARKROOM_FEATURES = [
     n: '04',
     en: 'LOCAL LIBRARY',
     title: '像访达一样的照片库',
-    body: '导入照片或整个文件夹，网格/列表、按胶片分组、收藏与颜色标签、搜索。原文件留在原位置，编辑按路径记住。',
+    body: '照片、视频、整个文件夹一起进库：网格/列表、按胶片分组、收藏与颜色标签、搜索。原文件留在原位置，编辑按路径记住。',
     foot: 'FOLDERS · FAVORITES · TAGS',
+  },
+  {
+    n: '05',
+    en: 'VIDEO DEVELOP',
+    title: '视频，也能显影',
+    body: '视频和照片待在同一间暗房。播放时是原片，暂停的那一帧立刻显影；颗粒按帧取种子，每一帧都是新的银盐分布。',
+    foot: 'PAUSE TO DEVELOP · FRAME GRAIN',
   },
 ];
 
 const EXTRA_FAQS = [
   {
     q: 'macOS 正式版和 Windows 测试版有什么区别？',
-    a: 'macOS 正式版（1.4）功能完整：45 支胶片 stock、113 种外观，以预生成的 ACES 2.0 LUT 叠加，速度快。Windows 测试版（0.1.0）先行 20 支胶片 × 8 种相纸，走真实光谱逐张显影，更接近化学过程但更慢，安装包尚未签名、部分功能仍在补齐。',
+    a: 'macOS 正式版（1.5）功能完整：45 支胶片 stock、113 种外观，以预生成的 ACES 2.0 LUT 叠加，速度快；1.5 起视频也能导进同一间暗房，暂停即显影当前帧。Windows 测试版（0.1.0）先行 20 支胶片 × 8 种相纸，走真实光谱逐张显影，更接近化学过程但更慢，安装包尚未签名、部分功能仍在补齐。',
   },
 ];
 
@@ -64,7 +71,7 @@ function setMeta(attr: 'name' | 'property', key: string, content: string) {
 function applySeo() {
   document.title = '欧胶片 OltraFilm — 把 RAW 显影成胶片的数字暗房';
   const desc =
-    '欧胶片 OltraFilm 是一条从 RAW 到胶片的显影链路：密度曲线、光谱感光、成色剂、光晕与颗粒，八道工序全本地离线。macOS 正式版 113 种 ACES 胶片外观，Windows 测试版实时光谱显影。';
+    '欧胶片 OltraFilm 是一条从 RAW 到胶片的显影链路：密度曲线、光谱感光、成色剂、光晕与颗粒，八道工序全本地离线。macOS 正式版 113 种 ACES 胶片外观、照片与视频同库显影，Windows 测试版实时光谱显影。';
   setMeta('name', 'description', desc);
   setMeta('property', 'og:title', '欧胶片 OltraFilm — 把 RAW 显影成胶片的数字暗房');
   setMeta('property', 'og:description', desc);
@@ -496,7 +503,7 @@ export default function OltraFlimPage() {
                   ? 'iOS 内测版是一间原生 SwiftUI 暗房：同一套光谱显影引擎跑在手机上，RAW / DNG / JPEG / HEIC 导入后先显影、再调色，片边、日期戳与做旧都在同一张成片上完成，导出直接写回相册。全程不联网，照片不出手机。'
                   : isWin
                     ? 'Windows 测试版已经可以安装：界面是 Electron，显影走本地 Python 光谱引擎，照片不出你的电脑。'
-                    : '下载即用。macOS 正式版的安装包里已带好 113 种胶片外观，不需要再联网下载素材。'}
+                    : '下载即用。macOS 1.5 的安装包里带好 113 种胶片外观；照片和视频待在同一间暗房，视频播放原片，暂停就显影当前这一帧。'}
               </p>
               <ul className="of-req">
                 {active.requirements.map(([k, v]) => (

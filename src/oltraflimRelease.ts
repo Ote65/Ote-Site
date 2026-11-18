@@ -11,7 +11,7 @@ export type FlimDownload = {
   mirror: string;
 };
 
-const TAG = 'v1.4';
+const TAG = 'v1.5';
 const REPO = 'https://github.com/Ote65/OltraFlim';
 const RELEASE = `${REPO}/releases/download/${TAG}`;
 const RELAY = 'https://ote.asia/dl';
@@ -29,9 +29,9 @@ const IOS_RELEASE = `${WIN_REPO}/releases/download/${IOS_TAG}`;
 export const OLTRAFILM_RELEASE = {
   name: '欧胶片 OltraFilm',
   en: 'OLTRAFILM',
-  version: '1.4',
-  build: '1',
-  date: '2026-11-10',
+  version: '1.5',
+  build: '6',
+  date: '2026-11-18',
   channel: '正式版',
   system: 'macOS 14.0 或更新',
   arch: 'Apple Silicon（M1 / M2 / M3 / M4）',
@@ -40,7 +40,7 @@ export const OLTRAFILM_RELEASE = {
   requirements: [
     ['SYSTEM', 'macOS 14.0 或更新'],
     ['CHIP', 'Apple Silicon（M1 / M2 / M3 / M4）'],
-    ['INPUT', 'JPEG · PNG · TIFF · HEIC · RAW · DNG'],
+    ['INPUT', 'RAW · DNG · JPEG · HEIC · 视频 MOV / MP4'],
     ['PRICE', '非商业用途免费'],
   ],
   /* 并列的 Windows 测试版入口（0.1.0，Electron 界面 + 本地 Python 引擎） */
@@ -185,35 +185,35 @@ export const OLTRAFILM_RELEASE = {
   },
   downloads: {
     dmg: {
-      file: 'OltraFlim-1.4.dmg',
+      file: 'OltraFlim-1.5.dmg',
       label: 'DMG 安装包',
-      size: '27.5 MB',
-      sha256: '216bdb32bc6377fd921d8fbdc215fb3e13c515163a043b9db4f531c54cf3ee5b',
-      github: `${RELEASE}/OltraFlim-1.4.dmg`,
-      relay: `${RELAY}/OltraFlim-1.4.dmg`,
-      mirror: `${MIRROR}/${RELEASE}/OltraFlim-1.4.dmg`,
+      size: '12.7 MB',
+      sha256: 'f058d8c021f6eb7b9cf30ba31cc4fff039ba0901e99971d9bf5f2aac2b5f2f61',
+      github: `${RELEASE}/OltraFlim-1.5.dmg`,
+      relay: `${RELAY}/OltraFlim-1.5.dmg`,
+      mirror: `${MIRROR}/${RELEASE}/OltraFlim-1.5.dmg`,
     } satisfies FlimDownload,
     zip: {
-      file: 'OltraFlim-1.4.zip',
+      file: 'OltraFlim-1.5.zip',
       label: 'ZIP 免挂载',
-      size: '12.6 MB',
-      sha256: 'f4baf4cf50f9130719fb00ea614382bb3ba591341f63e670ec1824da9d76c147',
-      github: `${RELEASE}/OltraFlim-1.4.zip`,
-      relay: `${RELAY}/OltraFlim-1.4.zip`,
-      mirror: `${MIRROR}/${RELEASE}/OltraFlim-1.4.zip`,
+      size: '12.8 MB',
+      sha256: '0952d862467bca9df603fc88b1e912afa262b3a52d923b0fd77a18e65f026585',
+      github: `${RELEASE}/OltraFlim-1.5.zip`,
+      relay: `${RELAY}/OltraFlim-1.5.zip`,
+      mirror: `${MIRROR}/${RELEASE}/OltraFlim-1.5.zip`,
     } satisfies FlimDownload,
   } satisfies Record<'dmg' | 'zip', FlimDownload>,
   /* 复制给可执行命令的 AI Agent 的自动安装提示词（macOS 正式版） */
   agentPrompt: [
-    '帮我在当前电脑上下载并安装 OltraFilm macOS 正式版 1.4（Apple Silicon，macOS 14+）。请真实执行每条命令，不要臆造结果；需要用户本人操作的地方，停下来交给用户。',
+    '帮我在当前电脑上下载并安装 OltraFilm macOS 正式版 1.5（Apple Silicon，macOS 14+）。请真实执行每条命令，不要臆造结果；需要用户本人操作的地方，停下来交给用户。',
     '',
     '1. 探测线路：对下面三个地址各发一次 HTTP Range 请求（只取 1 字节，超时 5 秒），记录可用性与耗时，选最快的一条：',
-    '   A 直连 GitHub：https://github.com/Ote65/OltraFlim/releases/download/v1.4/OltraFlim-1.4.dmg',
-    '   B 站内中转：https://ote.asia/dl/OltraFlim-1.4.dmg',
-    '   C 加速镜像：https://gh-proxy.com/https://github.com/Ote65/OltraFlim/releases/download/v1.4/OltraFlim-1.4.dmg',
-    '2. 下载 DMG 到本地，校验 SHA-256 必须等于 216bdb32bc6377fd921d8fbdc215fb3e13c515163a043b9db4f531c54cf3ee5b；不一致换线路重下，三次仍不一致向用户报告。',
-    '3. 安装：`hdiutil attach` 挂载 DMG，把 OltraFilm.app 复制到 /Applications，再 `hdiutil detach` 卸载；如被 Gatekeeper 拦截，用 `xattr -dr com.apple.quarantine /Applications/OltraFilm.app` 清除隔离属性后重试。',
-    '4. 启动验证：`open -a OltraFilm` 确认窗口正常出现；首次启动会做一次引擎预热，前几十秒渲染偏慢属正常。',
+    '   A 直连 GitHub：https://github.com/Ote65/OltraFlim/releases/download/v1.5/OltraFlim-1.5.dmg',
+    '   B 站内中转：https://ote.asia/dl/OltraFlim-1.5.dmg',
+    '   C 加速镜像：https://gh-proxy.com/https://github.com/Ote65/OltraFlim/releases/download/v1.5/OltraFlim-1.5.dmg',
+    '2. 下载 DMG 到本地，校验 SHA-256 必须等于 f058d8c021f6eb7b9cf30ba31cc4fff039ba0901e99971d9bf5f2aac2b5f2f61；不一致换线路重下，三次仍不一致向用户报告。',
+    '3. 安装：`hdiutil attach` 挂载 DMG，把 Spektrafilm.app 复制到 /Applications，再 `hdiutil detach` 卸载；如被 Gatekeeper 拦截，用 `xattr -dr com.apple.quarantine /Applications/Spektrafilm.app` 清除隔离属性后重试。',
+    '4. 启动验证：`open -a Spektrafilm` 确认窗口正常出现；首次启动会做一次引擎预热，前几十秒渲染偏慢属正常。',
     '5. 汇报：所用线路、文件路径、SHA-256 校验结果、安装与启动状态；失败时贴出关键错误行。',
   ].join('\n'),
 };
